@@ -1,70 +1,199 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Form, Input, Button, Row, Col, InputNumber } from "antd";
+import PageContent from "../../components/page-content";
+import styles from "./styles";
+import Swal from "sweetalert2";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import InputCpfCnpj from "../../components/atom/InputCpfCnpj";
+import InputTelefoneCelular from "../../components/atom/InputTelefoneCelular";
+import InputMascara from "../../components/atom/InputMascara";
 
-const Estoque = () => {
-	const [count, setCountState] = React.useState(0);
-	const [listPosts, setListaPosts] = React.useState([]);
+const CadastroEstoque = () => {
+	let { id } = useParams();
+	const [estoqueData, setEstoqueData] = useState(null);
+	const [isDataLoaded, setIsDataLoaded] = useState(false);
 
-	function counterState() {
-		setCountState(count + 1);
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				if (id !== undefined) {
+					let response;
+					response = await axios.get(
+						`http://localhost:8080/estoque/${id}`,
+					);
+					setEstoqueData(response.data);
+				}
+				setIsDataLoaded(true);
+			} catch (error) {
+				console.error("Erro ao buscar dados do estoque:", error);
+			}
+		};
+
+		fetchData();
+	}, [id]);
+
+	if (!isDataLoaded) {
+		return <div>Carregando...</div>;
 	}
+	// const onFinish = async (values) => {
+	// 	try {
+	// 		if (id === undefined) {
+	// 			const response = await axios.post(
+	// 				"http://localhost:3000/create-estoque",
+	// 				values,
+	// 			);
+	// 			Swal.fire({
+	// 				title: "Sucesso!",
+	// 				text: response.data,
+	// 				icon: "success",
+	// 				timer: 2000,
+	// 				showConfirmButton: false,
+	// 			});
+	// 		} else {
+	// 			localStorage.setItem("email", values.email);
+	// 			let response = null;
+	// 			if(id > 0){
+	// 				response = await axios.put(
+	// 					`http://localhost:3000/update-empresa/${id}`,
+	// 					values,
+	// 				);
+	// 			}else{
+	// 				response = await axios.put(
+	// 					`http://localhost:3000/update-estoque/${estoqueData.id}`,
+	// 					values,
+	// 				);
+	// 			}
+	// 			Swal.fire({
+	// 				title: "Sucesso!",
+	// 				text: response.data,
+	// 				icon: "success",
+	// 				timer: 2000,
+	// 				showConfirmButton: false,
+	// 			});
+	// 		}
 
-	// React.useEffect(() => {
-	//   const res = axios.get('blog/api/v1/rest/post');
-	//   res.then((query)=> {
-	//     setListaPosts(query.data);
-	//     console.log(query.data);
-	//   });
-	// })
+	// 		// Agora, aguarde 2 segundos antes de redirecionar
+	// 		setTimeout(() => {
+	// 			if (id === undefined) {
+	// 				window.location.href = "/";
+	// 			} else {
+	// 				window.location.href = "/home";
+	// 			}
+	// 		}, 1300);
+	// 	} catch (error) {
+	// 		Swal.fire({
+	// 			title: "Erro!",
+	// 			text: error,
+	// 			icon: "error",
+	// 			timer: 2000,
+	// 			showConfirmButton: false,
+	// 		});
+	// 	}
+	// };
+
 	return (
-		<div>
-			<h1>Home page</h1>
-			<div className="row">
-				<div className="col-4">
-					<p>Count com state: {count}</p>
-					<button
-						type="button"
-						className="btn btn-primary"
-						onClick={counterState}
+		<PageContent>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					justifyContent: "center",
+					alignItems: "center",
+					width: "100%",
+				}}
+			>
+				<h1
+					style={{
+						color: "#377599",
+						fontWeight: "bold",
+						marginTop: 100,
+						fontSize: 28,
+					}}
+				>
+					{id !== undefined ? "Edição " : "Cadastro "}de Estoque
+				</h1>
+				<Form
+					name="cadastro-estoque"
+					// onFinish={onFinish}
+					labelCol={{ span: 12 }}
+					wrapperCol={{ span: 24 }}
+					style={{
+						marginTop: 50,
+						width: "100%",
+					}}
+					initialValues={estoqueData}
+				>
+					<Row gutter={16}>
+						<Col span={12}>
+							<Form.Item
+								name="descricao"
+								rules={[
+									{
+										required: true,
+										message:
+											"Por favor, insira a descrição!",
+									},
+								]}
+							>
+								<Input
+									placeholder="Descrição*"
+									style={styles.inputForm}
+								/>
+							</Form.Item>
+						</Col>
+						<Col span={12}>
+							<Form.Item
+								name="quantidade"
+								rules={[
+									{
+										required: true,
+										message:
+											"Por favor, insira a quantidade disponível!",
+									},
+								]}
+							>
+								<InputNumber
+									placeholder="Quantidade disponível (unidade)*"
+									style={styles.inputForm}
+									min={1}
+								/>
+							</Form.Item>
+						</Col>
+					</Row>
+					<Row gutter={16}>
+						<Col span={12}>
+							<Form.Item
+								name="endereco"
+								rules={[
+									{
+										required: true,
+										message:
+											"Por favor, insira o endereço!",
+									},
+								]}
+							>
+								<Input
+									placeholder="Endereço*"
+									style={styles.inputForm}
+								/>
+							</Form.Item>
+						</Col>
+					</Row>
+					<Row
+						gutter={16}
+						style={{ display: "flex", justifyContent: "center" }}
 					>
-						Clique Aqui!
-					</button>
-				</div>
+						<Form.Item>
+							<Button style={styles.buttonForm} htmlType="submit">
+								{id !== undefined ? "Editar" : "Cadastrar"}
+							</Button>
+						</Form.Item>
+					</Row>
+				</Form>
 			</div>
-
-			<div>
-				<Link to="/novopost">
-					<button>Novo Post</button>
-				</Link>
-			</div>
-
-			<div className="row">
-				{listPosts.length > 0 && (
-					<table className="table">
-						<thead>
-							<tr>ID</tr>
-							<tr>Título</tr>
-							<tr>Post</tr>
-						</thead>
-						<tbody>
-							{listPosts.map((post, index) => (
-								<tr key={index}>
-									<th key={post.id}>{post.id}</th>
-									<td key={post.title}>
-										<a href={`/post/${post.id}`}>
-											{post.title}
-										</a>
-									</td>
-									<td key={post.post}>{post.post}</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-				)}
-			</div>
-		</div>
+		</PageContent>
 	);
 };
 
-export default Estoque;
+export default CadastroEstoque;
