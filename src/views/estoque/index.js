@@ -5,9 +5,6 @@ import styles from "./styles";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import InputCpfCnpj from "../../components/atom/InputCpfCnpj";
-import InputTelefoneCelular from "../../components/atom/InputTelefoneCelular";
-import InputMascara from "../../components/atom/InputMascara";
 
 const CadastroEstoque = () => {
 	let { id } = useParams();
@@ -36,61 +33,56 @@ const CadastroEstoque = () => {
 	if (!isDataLoaded) {
 		return <div>Carregando...</div>;
 	}
-	// const onFinish = async (values) => {
-	// 	try {
-	// 		if (id === undefined) {
-	// 			const response = await axios.post(
-	// 				"http://localhost:3000/create-estoque",
-	// 				values,
-	// 			);
-	// 			Swal.fire({
-	// 				title: "Sucesso!",
-	// 				text: response.data,
-	// 				icon: "success",
-	// 				timer: 2000,
-	// 				showConfirmButton: false,
-	// 			});
-	// 		} else {
-	// 			localStorage.setItem("email", values.email);
-	// 			let response = null;
-	// 			if(id > 0){
-	// 				response = await axios.put(
-	// 					`http://localhost:3000/update-empresa/${id}`,
-	// 					values,
-	// 				);
-	// 			}else{
-	// 				response = await axios.put(
-	// 					`http://localhost:3000/update-estoque/${estoqueData.id}`,
-	// 					values,
-	// 				);
-	// 			}
-	// 			Swal.fire({
-	// 				title: "Sucesso!",
-	// 				text: response.data,
-	// 				icon: "success",
-	// 				timer: 2000,
-	// 				showConfirmButton: false,
-	// 			});
-	// 		}
+	const onFinish = async (values) => {
+		try {
+			if (id === undefined) {
+				const response = await axios.post(
+					"http://localhost:8080/estoque",
+					values,
+				);
+				Swal.fire({
+					title: "Sucesso!",
+					text: response.data.detail,
+					icon: "success",
+					timer: 2000,
+					showConfirmButton: false,
+				});
+			} else {
+				let response = null;
+				if (id > 0) {
+					response = await axios.put(
+						`http://localhost:8080/estoque/${id}`,
+						values,
+					);
+				} else {
+					response = await axios.put(
+						`http://localhost:8080/estoque/${estoqueData.id}`,
+						values,
+					);
+				}
+				Swal.fire({
+					title: "Sucesso!",
+					text: response.data.detail,
+					icon: "success",
+					timer: 2000,
+					showConfirmButton: false,
+				});
+			}
 
-	// 		// Agora, aguarde 2 segundos antes de redirecionar
-	// 		setTimeout(() => {
-	// 			if (id === undefined) {
-	// 				window.location.href = "/";
-	// 			} else {
-	// 				window.location.href = "/home";
-	// 			}
-	// 		}, 1300);
-	// 	} catch (error) {
-	// 		Swal.fire({
-	// 			title: "Erro!",
-	// 			text: error,
-	// 			icon: "error",
-	// 			timer: 2000,
-	// 			showConfirmButton: false,
-	// 		});
-	// 	}
-	// };
+			// Agora, aguarde 2 segundos antes de redirecionar
+			setTimeout(() => {
+				window.location.href = "/lista-estoque";
+			}, 1300);
+		} catch (error) {
+			Swal.fire({
+				title: "Erro!",
+				text: error,
+				icon: "error",
+				timer: 2000,
+				showConfirmButton: false,
+			});
+		}
+	};
 
 	return (
 		<PageContent>
@@ -115,7 +107,7 @@ const CadastroEstoque = () => {
 				</h1>
 				<Form
 					name="cadastro-estoque"
-					// onFinish={onFinish}
+					onFinish={onFinish}
 					labelCol={{ span: 12 }}
 					wrapperCol={{ span: 24 }}
 					style={{

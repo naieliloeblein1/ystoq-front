@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+// import axios from "axios";
+// import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 	const [title, setTitle] = useState("");
 	const [post, setPost] = useState("");
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	// const handleSubmit = async (e) => {
 	// 	e.preventDefault();

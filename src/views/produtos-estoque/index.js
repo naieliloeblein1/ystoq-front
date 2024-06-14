@@ -20,9 +20,6 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import ButtonComponent from "../../components/atom/Button";
 import { useNavigate } from "react-router-dom";
-import ColumnSearchUtil from "../../utils/ColumnSearchUtil";
-
-const columnSearchUtil = new ColumnSearchUtil();
 
 const ListaEstoque = () => {
 	const [data, setData] = useState([]);
@@ -33,7 +30,6 @@ const ListaEstoque = () => {
 			title: "Descrição",
 			dataIndex: "descricao",
 			key: "descricao",
-			...columnSearchUtil.getColumnSearchProps("descricao"),
 		},
 		{
 			title: "Endereço",
@@ -41,10 +37,9 @@ const ListaEstoque = () => {
 			key: "endereco",
 		},
 		{
-			title: "Quantidade máxima",
+			title: "Quantidade disponível",
 			dataIndex: "quantidade",
 			key: "quantidade",
-			sorter: true,
 		},
 		{
 			title: "Ações",
@@ -62,6 +57,11 @@ const ListaEstoque = () => {
 						<Button type="link" danger icon={<DeleteOutlined />} />
 					</Popconfirm>
 					{/* )} */}
+					{/* <Tooltip title="Visualizar Detalhes">
+						<Link to={`/detalhes-estoque/${record.id}`}>
+							<EyeOutlined style={{ color: "blue" }} />
+						</Link>
+					</Tooltip> */}
 					{/* {admin_flag === "true" && ( */}
 					<Tooltip title="Editar">
 						<Link to={`/estoque/${record.id}`}>
@@ -93,7 +93,7 @@ const ListaEstoque = () => {
 
 	const handleDelete = async (id) => {
 		try {
-			await axios.delete(`http://localhost:8080/estoque/${id}`);
+			await axios.delete(`http://localhost:8080/delete-estoque/${id}`);
 			message.success("Estoque excluído com sucesso!");
 			fetchData();
 		} catch (error) {
@@ -124,7 +124,7 @@ const ListaEstoque = () => {
 						marginTop: "16px",
 					}}
 				>
-					<Col span={12}>
+					<Col span={16}>
 						<h1
 							style={{
 								color: "#377599",
@@ -136,7 +136,7 @@ const ListaEstoque = () => {
 						</h1>
 					</Col>
 					<Col
-						span={12}
+						span={8}
 						style={{
 							display: "flex",
 							justifyContent: "right",
@@ -145,31 +145,9 @@ const ListaEstoque = () => {
 					>
 						<ButtonComponent
 							title="Cadastrar Estoque"
-							style={{ marginRight: "10px" }}
 							icon={<PlusOutlined />}
 							onClick={() => {
 								navigate("/estoque");
-							}}
-						/>
-
-						<ButtonComponent
-							style={{
-								background: "rgb(238, 0, 0)",
-								border: "1px solid rgb(238, 0, 0)",
-								marginRight: "10px",
-							}}
-							title="Nova saída"
-							icon={<PlusOutlined />}
-							onClick={() => {
-								// navigate("/movimentacao-estoque");
-							}}
-						/>
-						<ButtonComponent
-							title="Nova entrada"
-							style={{ marginRight: "10px" }}
-							icon={<PlusOutlined />}
-							onClick={() => {
-								// navigate("/movimentacao-estoque");
 							}}
 						/>
 					</Col>

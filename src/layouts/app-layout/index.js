@@ -8,6 +8,7 @@ import Dashboard from "../../views/dashboard";
 import Estoque from "../../views/estoque";
 import ListaEstoque from "../../views/lista-estoque";
 import DetalhesEstoque from "../../views/detalhes-estoque";
+import ProdutosEstoque from "../../views/produtos-estoque";
 
 const { Content } = Layout;
 
@@ -32,6 +33,10 @@ const AppLayout = () => {
 							<Route
 								path="/detalhes-estoque/:id"
 								element={<DetalhesEstoque />}
+							/>
+							<Route
+								path="/produtos-estoque/:id"
+								element={<ProdutosEstoque />}
 							/>
 						</Routes>
 					</Content>

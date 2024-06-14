@@ -7,6 +7,8 @@ const ButtonComponent = ({ title, icon, onClick, style }) => {
 			onClick={onClick}
 			type="default" // Define o tipo do botão como padrão (transparente)
 			style={{
+				display: "flex",
+				flexDirection: "row",
 				background: "#0fc700",
 				color: "white", // Define a cor do texto como branca
 				borderRadius: "7px", // Define o raio da borda como 5px

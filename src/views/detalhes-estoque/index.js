@@ -12,9 +12,9 @@ const DetalhesEstoque = () => {
 		const fetchData = async () => {
 			try {
 				const response = await axios.get(
-					`http://localhost:3000/detalhes-estoque/${id}`,
+					`http://localhost:8080/detalhes-estoque/${id}`,
 				);
-				setData(response.data[0]);
+				setData(response.data);
 			} catch (error) {
 				console.error("Erro ao buscar dados:", error);
 			}
@@ -55,7 +55,7 @@ const DetalhesEstoque = () => {
 									marginLeft: 20,
 								}}
 							>
-								Empresa {data?.razao_social}
+								Descrição do Estoque: {data?.descricao}
 							</div>
 						</div>
 					</Col>
@@ -80,7 +80,7 @@ const DetalhesEstoque = () => {
 									marginBottom: 20,
 								}}
 							>
-								CNPJ: {data?.cnpj}
+								Quantidade disponível: {data?.quantidade}
 							</div>
 							<div
 								style={{
@@ -93,30 +93,6 @@ const DetalhesEstoque = () => {
 								}}
 							>
 								Endereço: {data?.endereco}
-							</div>
-							<div
-								style={{
-									fontSize: 21,
-									color: "#377599",
-									backgroundColor: "#eee",
-									borderRadius: 10,
-									paddingLeft: 20,
-									marginBottom: 20,
-								}}
-							>
-								Telefone: {data?.telefone}
-							</div>
-							<div
-								style={{
-									fontSize: 21,
-									color: "#377599",
-									backgroundColor: "#eee",
-									borderRadius: 10,
-									paddingLeft: 20,
-									marginBottom: 20,
-								}}
-							>
-								E-mail: {data?.email}
 							</div>
 						</div>
 					</Col>
