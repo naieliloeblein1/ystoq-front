@@ -26,7 +26,7 @@ const columnSearchUtil = new ColumnSearchUtil();
 
 const ListaEstoque = () => {
 	const [data, setData] = useState([]);
-	// const admin_flag = localStorage.getItem("admin_flag");
+	// const flag_admin = localStorage.getItem("flag_admin");
 	const navigate = useNavigate();
 	const columns = [
 		{
@@ -51,7 +51,7 @@ const ListaEstoque = () => {
 			key: "action",
 			render: (_, record) => (
 				<Space size="middle">
-					{/* {admin_flag === "true" && ( */}
+					{/* {flag_admin === "true" && ( */}
 					<Popconfirm
 						title="Tem certeza que deseja excluir?"
 						onConfirm={() => handleDelete(record.id)}
@@ -62,7 +62,7 @@ const ListaEstoque = () => {
 						<Button type="link" danger icon={<DeleteOutlined />} />
 					</Popconfirm>
 					{/* )} */}
-					{/* {admin_flag === "true" && ( */}
+					{/* {flag_admin === "true" && ( */}
 					<Tooltip title="Editar">
 						<Link to={`/estoque/${record.id}`}>
 							<Button type="link" icon={<EditOutlined />} />
