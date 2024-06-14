@@ -121,7 +121,11 @@ const ListaEstoque = () => {
 						width: "100%",
 						display: "flex",
 						justifyContent: "space-between",
-						marginTop: "16px",
+						marginTop: "40px",
+						padding: 28,
+						background: "#fff",
+						borderTopRightRadius: 5,
+						borderTopLeftRadius: 5,
 					}}
 				>
 					<Col span={12}>
@@ -145,7 +149,7 @@ const ListaEstoque = () => {
 					>
 						<ButtonComponent
 							title="Cadastrar Estoque"
-							style={{ marginRight: "10px" }}
+							style={{ marginRight: "15px" }}
 							icon={<PlusOutlined />}
 							onClick={() => {
 								navigate("/estoque");
@@ -156,7 +160,7 @@ const ListaEstoque = () => {
 							style={{
 								background: "rgb(238, 0, 0)",
 								border: "1px solid rgb(238, 0, 0)",
-								marginRight: "10px",
+								marginRight: "15px",
 							}}
 							title="Nova saída"
 							icon={<PlusOutlined />}
@@ -166,7 +170,7 @@ const ListaEstoque = () => {
 						/>
 						<ButtonComponent
 							title="Nova entrada"
-							style={{ marginRight: "10px" }}
+							style={{ marginRight: "15px" }}
 							icon={<PlusOutlined />}
 							onClick={() => {
 								// navigate("/movimentacao-estoque");
@@ -174,23 +178,29 @@ const ListaEstoque = () => {
 						/>
 					</Col>
 				</Row>
-				<Space
-					direction="vertical"
+				<Row
+					gutter={24}
 					style={{
 						width: "100%",
-						marginTop: "12px",
-						border: "1px solid #d4d4d4",
-						borderRadius: "10px",
-						padding: "16px",
 					}}
 				>
-					{" "}
-					<Table
-						columns={columns}
-						dataSource={data}
-						scroll={{ x: 240 }}
-					/>
-				</Space>
+					<Space
+						direction="vertical"
+						style={{
+							width: "100%",
+							border: "1px solid #e6ebf1",
+							background: "#fff",
+							padding: "12px",
+						}}
+					>
+						{" "}
+						<Table
+							columns={columns}
+							dataSource={data}
+							scroll={{ x: 240 }}
+						/>
+					</Space>
+				</Row>
 			</div>
 		</PageContent>
 	);
