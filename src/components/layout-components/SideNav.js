@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
-import { DropboxOutlined, BarChartOutlined, TeamOutlined } from "@ant-design/icons";
+import { DropboxOutlined, BarChartOutlined, TeamOutlined, ProductOutlined, UnorderedListOutlined } from "@ant-design/icons";
 
 const SideNav = () => {
 	return (
@@ -36,6 +36,22 @@ const SideNav = () => {
 						<TeamOutlined />
 					</span>
 					<span>Usuários</span>
+				</Link>
+			</Menu.Item>
+			<Menu.Item key="4">
+				<Link to="/lista-produtos">
+					<span style={{ paddingRight: 3 }}>
+						<ProductOutlined />
+					</span>
+					<span>Produtos</span>
+				</Link>
+			</Menu.Item>
+			<Menu.Item key="5">
+				<Link to="/lista-categorias">
+					<span style={{ paddingRight: 3 }}>
+						<UnorderedListOutlined />
+					</span>
+					<span>Categorias de Produto</span>
 				</Link>
 			</Menu.Item>
 		</Menu>
