@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
-import { DropboxOutlined, BarChartOutlined } from "@ant-design/icons";
+import { DropboxOutlined, BarChartOutlined, TeamOutlined } from "@ant-design/icons";
 
 const SideNav = () => {
 	return (
@@ -28,6 +28,14 @@ const SideNav = () => {
 						<DropboxOutlined />
 					</span>
 					<span>Estoques</span>
+				</Link>
+			</Menu.Item>
+			<Menu.Item key="3">
+				<Link to="/lista-usuarios">
+					<span style={{ paddingRight: 3 }}>
+						<TeamOutlined />
+					</span>
+					<span>Usuários</span>
 				</Link>
 			</Menu.Item>
 		</Menu>

@@ -9,6 +9,8 @@ import Estoque from "../../views/estoque";
 import ListaEstoque from "../../views/lista-estoque";
 import DetalhesEstoque from "../../views/detalhes-estoque";
 import ProdutosEstoque from "../../views/produtos-estoque";
+import ListaUsuarios from "../../views/lista-usuarios";
+import CadastroUsuario from "../../views/usuario";
 
 const { Content } = Layout;
 
@@ -37,6 +39,14 @@ const AppLayout = () => {
 							<Route
 								path="/produtos-estoque/:id"
 								element={<ProdutosEstoque />}
+							/>
+							<Route
+								path="/lista-usuarios"
+								element={<ListaUsuarios />}
+							/>
+							<Route
+								path="/usuario"
+								element={<CadastroUsuario />}
 							/>
 						</Routes>
 					</Content>

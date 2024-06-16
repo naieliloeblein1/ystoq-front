@@ -11,6 +11,7 @@ export const NavProfile = () => {
 		localStorage.removeItem("email");
 		localStorage.removeItem("usuario_flag");
 		localStorage.removeItem("admin_flag");
+		localStorage.removeItem("token");
 	};
 	let usuario_flag = null;
 	usuario_flag = localStorage.getItem("usuario_flag");
@@ -51,7 +52,7 @@ export const NavProfile = () => {
 										key="1"
 										onClick={(e) => signOut()}
 									>
-										<Link to={`http://localhost:3001/`}>
+										<Link to={`http://localhost:3000/`}>
 											<div style={{ display: "flex" }}>
 												<div style={{ flexGrow: 1 }}>
 													<span>Sair</span>
