@@ -11,6 +11,7 @@ import DetalhesEstoque from "../../views/detalhes-estoque";
 import ProdutosEstoque from "../../views/produtos-estoque";
 import ListaUsuarios from "../../views/lista-usuarios";
 import CadastroUsuario from "../../views/usuario";
+import MovimentacaoEstoque from "../../views/movimentacao-estoque";
 
 const { Content } = Layout;
 
@@ -47,6 +48,10 @@ const AppLayout = () => {
 							<Route
 								path="/usuario"
 								element={<CadastroUsuario />}
+							/>
+							<Route
+								path="/movimentacao-estoque"
+								element={<MovimentacaoEstoque />}
 							/>
 						</Routes>
 					</Content>
