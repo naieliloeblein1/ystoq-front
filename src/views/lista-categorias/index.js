@@ -24,7 +24,7 @@ import ColumnSearchUtil from "../../utils/ColumnSearchUtil";
 
 const columnSearchUtil = new ColumnSearchUtil();
 
-const ListaEstoque = () => {
+const ListaCategoria = () => {
 	const [data, setData] = useState([]);
 	// const flag_admin = localStorage.getItem("flag_admin");
 	const navigate = useNavigate();
@@ -34,17 +34,6 @@ const ListaEstoque = () => {
 			dataIndex: "descricao",
 			key: "descricao",
 			...columnSearchUtil.getColumnSearchProps("descricao"),
-		},
-		{
-			title: "Endereço",
-			dataIndex: "endereco",
-			key: "endereco",
-		},
-		{
-			title: "Quantidade máxima",
-			dataIndex: "quantidade",
-			key: "quantidade",
-			sorter: true,
 		},
 		{
 			title: "Ações",
@@ -64,16 +53,8 @@ const ListaEstoque = () => {
 					{/* )} */}
 					{/* {flag_admin === "true" && ( */}
 					<Tooltip title="Editar">
-						<Link to={`/estoque/${record.id}`}>
+						<Link to={`/categoria/${record.id}`}>
 							<Button type="link" icon={<EditOutlined />} />
-						</Link>
-					</Tooltip>
-					<Tooltip title="Ver produtos em estoque">
-						<Link to={`/produtos-estoque/${record.id}`}>
-							<Button
-								type="link"
-								icon={<UnorderedListOutlined />}
-							/>
 						</Link>
 					</Tooltip>
 					{/* )} */}
@@ -84,7 +65,7 @@ const ListaEstoque = () => {
 
 	const fetchData = async () => {
 		try {
-			const response = await axios.get("http://localhost:8080/estoque");
+			const response = await axios.get("http://localhost:8080/categoria");
 			setData(response.data);
 		} catch (error) {
 			console.error("Erro ao buscar dados:", error);
@@ -93,11 +74,11 @@ const ListaEstoque = () => {
 
 	const handleDelete = async (id) => {
 		try {
-			await axios.delete(`http://localhost:8080/estoque/${id}`);
-			message.success("Estoque excluído com sucesso!");
+			await axios.delete(`http://localhost:8080/categoria/${id}`);
+			message.success("Categoria excluído com sucesso!");
 			fetchData();
 		} catch (error) {
-			console.error("Erro ao excluir estoque:", error.message);
+			console.error("Erro ao excluir categoria:", error.message);
 			message.error("Erro ao excluir item. Por favor, tente novamente.");
 		}
 	};
@@ -136,7 +117,7 @@ const ListaEstoque = () => {
 								fontSize: 28,
 							}}
 						>
-							Estoques
+							Categoria
 						</h1>
 					</Col>
 					<Col
@@ -148,32 +129,11 @@ const ListaEstoque = () => {
 						}}
 					>
 						<ButtonComponent
-							title="Cadastrar Estoque"
+							title="Cadastrar Categoria"
 							style={{ marginRight: "15px" }}
 							icon={<PlusOutlined />}
 							onClick={() => {
-								navigate("/estoque");
-							}}
-						/>
-
-						<ButtonComponent
-							style={{
-								background: "rgb(238, 0, 0)",
-								border: "1px solid rgb(238, 0, 0)",
-								marginRight: "15px",
-							}}
-							title="Nova saída"
-							icon={<PlusOutlined />}
-							onClick={() => {
-								navigate("/movimentacao-estoque?tipo=1");
-							}}
-						/>
-						<ButtonComponent
-							title="Nova entrada"	
-							style={{ marginRight: "15px" }}
-							icon={<PlusOutlined />}
-							onClick={() => {
-								navigate("/movimentacao-estoque?tipo=0");
+								navigate("/categoria");
 							}}
 						/>
 					</Col>
@@ -206,4 +166,4 @@ const ListaEstoque = () => {
 	);
 };
 
-export default ListaEstoque;
+export default ListaCategoria;
