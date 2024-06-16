@@ -165,15 +165,15 @@ const ListaEstoque = () => {
 							title="Nova saída"
 							icon={<PlusOutlined />}
 							onClick={() => {
-								// navigate("/movimentacao-estoque");
+								navigate("/movimentacao-estoque?tipo=1");
 							}}
 						/>
 						<ButtonComponent
-							title="Nova entrada"
+							title="Nova entrada"	
 							style={{ marginRight: "15px" }}
 							icon={<PlusOutlined />}
 							onClick={() => {
-								// navigate("/movimentacao-estoque");
+								navigate("/movimentacao-estoque?tipo=0");
 							}}
 						/>
 					</Col>
