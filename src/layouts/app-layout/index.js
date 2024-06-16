@@ -48,6 +48,10 @@ const AppLayout = () => {
 								path="/usuario"
 								element={<CadastroUsuario />}
 							/>
+							<Route
+								path="/usuario/:id"
+								element={<CadastroUsuario />}
+							/>
 						</Routes>
 					</Content>
 					<Footer />

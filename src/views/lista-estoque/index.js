@@ -15,6 +15,7 @@ import {
 	EditOutlined,
 	PlusOutlined,
 	UnorderedListOutlined,
+	InsertRowLeftOutlined,
 } from "@ant-design/icons";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -73,6 +74,14 @@ const ListaEstoque = () => {
 							<Button
 								type="link"
 								icon={<UnorderedListOutlined />}
+							/>
+						</Link>
+					</Tooltip>
+					<Tooltip title="Ver movimentações do estoque">
+						<Link to={`/lista-movimentacao-estoque/${record.id}`}>
+							<Button
+								type="link"
+								icon={<InsertRowLeftOutlined />}
 							/>
 						</Link>
 					</Tooltip>
