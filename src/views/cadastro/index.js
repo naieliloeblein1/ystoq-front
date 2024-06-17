@@ -30,7 +30,6 @@ const Cadastro = () => {
 				"http://localhost:8080/usuario",
 				values,
 			);
-			console.log("Cadastro realizado com sucesso:", response.data);
 			Swal.fire({
 				title: "Sucesso!",
 				text: "Cadastro realizado com sucesso.",

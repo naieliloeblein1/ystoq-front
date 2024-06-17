@@ -23,7 +23,7 @@ const SideNav = () => {
 					<span>Dashboard</span>
 				</Link>
 			</Menu.Item>
-			<Menu.Item key="2" style={{ display: admin_flag ? 'block' : 'none' }}>
+			<Menu.Item key="2">
 				<Link to="/lista-estoque">
 					<span style={{ paddingRight: 3 }}>
 						<DropboxOutlined />

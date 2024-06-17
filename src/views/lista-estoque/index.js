@@ -30,7 +30,7 @@ const columnSearchUtil = new ColumnSearchUtil();
 const ListaEstoque = () => {
 	const [data, setData] = useState([]);
 	const [searchValue, setSearchValue] = useState("");
-	// const flag_admin = localStorage.getItem("flag_admin");
+	const admin_flag = localStorage.getItem('admin_flag');
 	const navigate = useNavigate();
 	const columns = [
 		{
@@ -53,7 +53,7 @@ const ListaEstoque = () => {
 			key: "action",
 			render: (_, record) => (
 				<Space size="middle">
-					{/* {flag_admin === "true" && ( */}
+					{admin_flag === "true" && (
 					<Popconfirm
 						title="Tem certeza que deseja excluir?"
 						onConfirm={() => handleDelete(record.id)}
@@ -63,13 +63,14 @@ const ListaEstoque = () => {
 					>
 						<Button type="link" danger icon={<DeleteOutlined />} />
 					</Popconfirm>
-					{/* )} */}
-					{/* {flag_admin === "true" && ( */}
+					)}
+					{admin_flag === "true" && (
 					<Tooltip title="Editar">
 						<Link to={`/estoque/${record.id}`}>
 							<Button type="link" icon={<EditOutlined />} />
 						</Link>
 					</Tooltip>
+					)}
 					<Tooltip title="Ver produtos em estoque">
 						<Link to={`/produtos-estoque/${record.id}`}>
 							<Button
@@ -86,7 +87,7 @@ const ListaEstoque = () => {
 							/>
 						</Link>
 					</Tooltip>
-					{/* )} */}
+					
 				</Space>
 			),
 		},
@@ -167,6 +168,7 @@ const ListaEstoque = () => {
 							alignItems: "center",
 						}}
 					>
+						{admin_flag === "true" && (
 						<ButtonComponent
 							title="Cadastrar Estoque"
 							style={{ marginRight: "15px" }}
@@ -175,6 +177,7 @@ const ListaEstoque = () => {
 								navigate("/estoque");
 							}}
 						/>
+						)}
 
 						<ButtonComponent
 							style={{

@@ -1,22 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Card, Col, Row } from "antd";
 import Swal from "sweetalert2";
-import moment from "moment";
 import Chart from "react-apexcharts";
 import PageContent from "../../components/page-content";
 import { COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, COLOR_6, COLOR_7 } from "../../constants/ChartConstant";
-import SelectFiltroPeriodo from "../../components/molecule/SelectFiltroPeriodo";
 import axios from "axios";
 
 const Dashboard = (props) => {
 	const [data = [], setData] = useState();
 	const [dataEstoque = [], setDataEstoque] = useState();
 	const [dataProdutos = [], setDataProdutos] = useState();
-	const [filtros, setFiltros] = useState({
-		dataInicio: moment().startOf("month").format(),
-		dataFim: moment().endOf("day").format(),
-	});
-	const [selectedRange, setSelectedRange] = useState(4);
 
 	const obterDados = async () => {
 		try {

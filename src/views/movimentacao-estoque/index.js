@@ -117,9 +117,7 @@ const CadastroMovimentacao = () => {
 		}
 	};
 
-	const onChange = (date, dateString) => {
-		console.log(date, dateString);
-	};
+	const onChange = (date, dateString) => {};
 
 	const getIdByDescription = (description, options) => {
 		const option = options.find(option => option.value === description);
@@ -145,7 +143,6 @@ const CadastroMovimentacao = () => {
 						fontSize: 28,
 					}}
 				>
-					{console.log(tipo)}
 					{id !== undefined ? "Edição " : "Cadastro "}de Movimentação (
 					{tipo !== '1' ? "Entrada" : "Saída"})
 				</h1>
