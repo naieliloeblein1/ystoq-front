@@ -26,10 +26,7 @@ const Cadastro = () => {
 	const handleSignup = async (values) => {
 		try {
 			setIsSubmitting(true);
-			const response = await axios.post(
-				"http://localhost:8080/usuario",
-				values,
-			);
+			await axios.post("http://localhost:8080/usuario", values);
 			Swal.fire({
 				title: "Sucesso!",
 				text: "Cadastro realizado com sucesso.",

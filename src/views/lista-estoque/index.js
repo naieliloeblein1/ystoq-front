@@ -27,7 +27,7 @@ import { useNavigate } from "react-router-dom";
 const ListaEstoque = () => {
 	const [data, setData] = useState([]);
 	const [searchValue, setSearchValue] = useState("");
-	const admin_flag = localStorage.getItem('admin_flag');
+	const admin_flag = localStorage.getItem("admin_flag");
 	const navigate = useNavigate();
 	const columns = [
 		{
@@ -51,22 +51,26 @@ const ListaEstoque = () => {
 			render: (_, record) => (
 				<Space size="middle">
 					{admin_flag === "true" && (
-					<Popconfirm
-						title="Tem certeza que deseja excluir?"
-						onConfirm={() => handleDelete(record.id)}
-						onCancel={() => {}}
-						okText="Sim"
-						cancelText="Não"
-					>
-						<Button type="link" danger icon={<DeleteOutlined />} />
-					</Popconfirm>
+						<Popconfirm
+							title="Tem certeza que deseja excluir?"
+							onConfirm={() => handleDelete(record.id)}
+							onCancel={() => {}}
+							okText="Sim"
+							cancelText="Não"
+						>
+							<Button
+								type="link"
+								danger
+								icon={<DeleteOutlined />}
+							/>
+						</Popconfirm>
 					)}
 					{admin_flag === "true" && (
-					<Tooltip title="Editar">
-						<Link to={`/estoque/${record.id}`}>
-							<Button type="link" icon={<EditOutlined />} />
-						</Link>
-					</Tooltip>
+						<Tooltip title="Editar">
+							<Link to={`/estoque/${record.id}`}>
+								<Button type="link" icon={<EditOutlined />} />
+							</Link>
+						</Tooltip>
 					)}
 					<Tooltip title="Ver produtos em estoque">
 						<Link to={`/produtos-estoque/${record.id}`}>
@@ -84,7 +88,6 @@ const ListaEstoque = () => {
 							/>
 						</Link>
 					</Tooltip>
-					
 				</Space>
 			),
 		},
@@ -137,7 +140,6 @@ const ListaEstoque = () => {
 						justifyContent: "space-between",
 						marginTop: "40px",
 						padding: 28,
-						paddingBottom: 0,
 						background: "#fff",
 						borderTopRightRadius: 5,
 						borderTopLeftRadius: 5,
@@ -166,14 +168,14 @@ const ListaEstoque = () => {
 						}}
 					>
 						{admin_flag === "true" && (
-						<ButtonComponent
-							title="Cadastrar Estoque"
-							style={{ marginRight: "15px" }}
-							icon={<PlusOutlined />}
-							onClick={() => {
-								navigate("/estoque");
-							}}
-						/>
+							<ButtonComponent
+								title="Cadastrar Estoque"
+								style={{ marginRight: "15px" }}
+								icon={<PlusOutlined />}
+								onClick={() => {
+									navigate("/estoque");
+								}}
+							/>
 						)}
 
 						<ButtonComponent
