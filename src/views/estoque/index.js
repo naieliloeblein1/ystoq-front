@@ -90,99 +90,113 @@ const CadastroEstoque = () => {
 				style={{
 					display: "flex",
 					flexDirection: "column",
-					justifyContent: "center",
+					justifyContent: "flex-start",
 					alignItems: "center",
 					width: "100%",
+					minHeight: "100vh",
+					paddingTop: 40,
 				}}
 			>
-				<h1
+				<div
 					style={{
-						color: "#377599",
-						fontWeight: "bold",
-						marginTop: 100,
-						fontSize: 28,
+						backgroundColor: "white",
+						padding: 40,
+						borderRadius: 8,
+						boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+						maxWidth: "100%",
+						width: "100vh",
+						textAlign: "center",
+						minHeight: "60vh",
 					}}
 				>
-					{id !== undefined ? "Edição " : "Cadastro "}de Estoque
-				</h1>
-				<Form
-					name="cadastro-estoque"
-					onFinish={onFinish}
-					labelCol={{ span: 12 }}
-					wrapperCol={{ span: 24 }}
-					style={{
-						marginTop: 50,
-						width: "100%",
-					}}
-					initialValues={estoqueData}
-				>
-					<Row gutter={16}>
-						<Col span={12}>
-							<Form.Item
-								name="descricao"
-								rules={[
-									{
-										required: true,
-										message:
-											"Por favor, insira a descrição!",
-									},
-								]}
-							>
-								<Input
-									placeholder="Descrição*"
-									style={styles.inputForm}
-								/>
-							</Form.Item>
-						</Col>
-						<Col span={12}>
-							<Form.Item
-								name="quantidade"
-								rules={[
-									{
-										required: true,
-										message:
-											"Por favor, insira a quantidade disponível!",
-									},
-								]}
-							>
-								<InputNumber
-									placeholder="Quantidade disponível (unidade)*"
-									style={styles.inputForm}
-									min={1}
-								/>
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row gutter={16}>
-						<Col span={12}>
-							<Form.Item
-								name="endereco"
-								rules={[
-									{
-										required: true,
-										message:
-											"Por favor, insira o endereço!",
-									},
-								]}
-							>
-								<Input
-									placeholder="Endereço*"
-									style={styles.inputForm}
-								/>
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row
-						gutter={16}
-						style={{ display: "flex", justifyContent: "center" }}
+					<h1
+						style={{
+							color: "#377599",
+							fontWeight: "bold",
+							marginTop: 0,
+							fontSize: 28,
+						}}
 					>
-						<Form.Item>
-							<Button style={styles.buttonForm} htmlType="submit">
-								{id !== undefined ? "Editar" : "Cadastrar"}
-							</Button>
-						</Form.Item>
-					</Row>
-				</Form>
+						{id !== undefined ? "Edição " : "Cadastro "}de Estoque
+					</h1>
+					<Form
+						name="cadastro-estoque"
+						onFinish={onFinish}
+						labelCol={{ span: 24 }}
+						wrapperCol={{ span: 24 }}
+						style={{
+							marginTop: 20,
+						}}
+						initialValues={estoqueData}
+					>
+						<Row gutter={16}>
+							<Col span={24}>
+								<Form.Item
+									name="descricao"
+									rules={[
+										{
+											required: true,
+											message:
+												"Por favor, insira a descrição!",
+										},
+									]}
+								>
+									<Input
+										placeholder="Descrição*"
+										style={styles.inputForm}
+									/>
+								</Form.Item>
+							</Col>
+						</Row>
+						<Row gutter={16}>
+							<Col span={12}>
+								<Form.Item
+									name="quantidade"
+									rules={[
+										{
+											required: true,
+											message:
+												"Por favor, insira a quantidade disponível!",
+										},
+									]}
+								>
+									<InputNumber
+										placeholder="Quantidade máxima (unidade)*"
+										style={styles.inputForm}
+										min={1}
+									/>
+								</Form.Item>
+							</Col>
+							<Col span={12}>
+								<Form.Item
+									name="endereco"
+									rules={[
+										{
+											required: true,
+											message:
+												"Por favor, insira o endereço!",
+										},
+									]}
+								>
+									<Input
+										placeholder="Endereço*"
+										style={styles.inputForm}
+									/>
+								</Form.Item>
+							</Col>
+						</Row>
+						<Row
+							gutter={16}
+							style={{ display: "flex", justifyContent: "center" }}
+						>
+							<Form.Item>
+								<Button style={styles.buttonForm} htmlType="submit">
+									{id !== undefined ? "Editar" : "Cadastrar"}
+								</Button>
+							</Form.Item>
+						</Row>
+					</Form>
+				</div>
 			</div>
 		</PageContent>
 	);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Row, Col, InputNumber, DatePicker, AutoComplete  } from "antd";
+import { Form, Input, Button, Row, Col, InputNumber, DatePicker, AutoComplete } from "antd";
 import PageContent from "../../components/page-content";
 import styles from "./styles";
 import Swal from "sweetalert2";
@@ -10,13 +10,12 @@ import moment from "moment";
 const CadastroMovimentacao = () => {
 	let { id } = useParams();
 	const location = useLocation();
-	const queryParams = new URLSearchParams(location.search);
 
 	const [movimentacaoData, setMovimentacaoData] = useState(null);
 	const [isDataLoaded, setIsDataLoaded] = useState(false);
 	const [estoqueOptions, setEstoqueOptions] = useState([]);
 	const [produtoOptions, setProdutoOptions] = useState([]);
-    const [tipoMovimentacao, setTipoMovimentacao] = useState('');
+	const [tipoMovimentacao, setTipoMovimentacao] = useState('');
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -37,7 +36,8 @@ const CadastroMovimentacao = () => {
 					setTipoMovimentacao(String(response.data.tipo));
 					setMovimentacaoData(newValues);
 				}
-				else{
+				else {
+					const queryParams = new URLSearchParams(location.search);
 					const tipoFromQueryParam = queryParams.get('tipo');
 					setTipoMovimentacao(tipoFromQueryParam);
 				}
@@ -48,7 +48,7 @@ const CadastroMovimentacao = () => {
 		};
 
 		fetchData();
-	}, [id]);
+	}, [id, location]);
 
 	useEffect(() => {
 		const fetchEstoqueOptions = async () => {
@@ -131,7 +131,7 @@ const CadastroMovimentacao = () => {
 		}
 	};
 
-	const onChange = (date, dateString) => {};
+	const onChange = (date, dateString) => { };
 
 	const getIdByDescription = (description, options) => {
 		const option = options.find(option => option.value === description);
@@ -144,136 +144,150 @@ const CadastroMovimentacao = () => {
 				style={{
 					display: "flex",
 					flexDirection: "column",
-					justifyContent: "center",
+					justifyContent: "flex-start",
 					alignItems: "center",
 					width: "100%",
+					minHeight: "100vh",
+					paddingTop: 40,
 				}}
 			>
-				<h1
+				<div
 					style={{
-						color: "#377599",
-						fontWeight: "bold",
-						marginTop: 100,
-						fontSize: 28,
+						backgroundColor: "white",
+						padding: 40,
+						borderRadius: 8,
+						boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+						maxWidth: "100%",
+						width: "100vh",
+						textAlign: "center",
+						minHeight: "60vh",
 					}}
 				>
-					{id !== undefined ? "Edição " : "Cadastro "}de Movimentação (
-					{tipoMovimentacao === '1' ? "Saída" : "Entrada"})
-				</h1>
-				<Form
-					name="cadastro-movimentacao"
-					onFinish={onFinish}
-					labelCol={{ span: 12 }}
-					wrapperCol={{ span: 24 }}
-					style={{
-						marginTop: 50,
-						width: "100%",
-					}}
-					initialValues={movimentacaoData}
-				>
-					<Row gutter={16}>
-						<Col span={12}>
-							<Form.Item
-								name="estoque"
-								rules={[
-									{
-										required: true,
-										message: "Por favor, selcione o estoque!"
-									},
-								]}
-							>
-								<AutoComplete
-									options={estoqueOptions}
-									placeholder="Estoque*"
-									style={styles.inputForm}
-								/>
-							</Form.Item>
-						</Col>
-						<Col span={12}>
-							<Form.Item
-								name="produto"
-								rules={[
-									{
-										required: true,
-										message: "Por favor, selcione o produto!"
-									},
-								]}
-							>
-								<AutoComplete
-									options={produtoOptions}
-									placeholder="Produto*"
-									style={styles.inputForm}
-								/>
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row gutter={16}>
-						<Col span={12}>
-							<Form.Item
-								name="quantidade"
-								rules={[
-									{
-										required: true,
-										message:
-											"Por favor, insira a quantidade movimentada!",
-									},
-								]}
-							>
-								<InputNumber
-									placeholder="Quantidade (unidade)*"
-									style={styles.inputForm}
-									min={1}
-								/>
-							</Form.Item>
-						</Col>
-						<Col span={12}>
-							<Form.Item
-								name="data"
-								rules={[
-									{
-										required: true,
-										message:
-											"Por favor, insira a data da movimentação!",
-									},
-								]}
-							>
-								<DatePicker
-									placeholder="Data da movimentação*"
-									value={movimentacaoData && moment(movimentacaoData.data)}
-									onChange={onChange}
-									style={styles.inputForm}
-								/>
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row gutter={16}>
-						<Col span={24}>
-							<Form.Item
-								name="descricao"
-								rules={[
-									{
-										required: false,
-									},
-								]}
-							>
-								<Input
-									placeholder="Descrição"
-									style={styles.inputForm}
-								/>
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row
-						gutter={16}
-						style={{ display: "flex", justifyContent: "center" }}
+					<h1
+                        style={{
+                            color: "#377599",
+                            fontWeight: "bold",
+                            marginTop: 0,
+                            fontSize: 28,
+                        }}
+                    >
+						{id !== undefined ? "Edição " : "Cadastro "}de Movimentação (
+						{tipoMovimentacao === '1' ? "Saída" : "Entrada"})
+					</h1>
+					<Form
+						name="cadastro-movimentacao"
+						onFinish={onFinish}
+						labelCol={{ span: 24 }}
+						wrapperCol={{ span: 24 }}
+						style={{
+							marginTop: 20,
+						}}
+						initialValues={movimentacaoData}
 					>
-						<Form.Item>
-							<Button style={styles.buttonForm} htmlType="submit">
-								{id !== undefined ? "Editar" : "Cadastrar"}
-							</Button>
-						</Form.Item>
-					</Row>
-				</Form>
+						<Row gutter={16}>
+							<Col span={12}>
+								<Form.Item
+									name="estoque"
+									rules={[
+										{
+											required: true,
+											message: "Por favor, selcione o estoque!"
+										},
+									]}
+								>
+									<AutoComplete
+										options={estoqueOptions}
+										placeholder="Estoque*"
+										style={styles.inputForm}
+									/>
+								</Form.Item>
+							</Col>
+							<Col span={12}>
+								<Form.Item
+									name="produto"
+									rules={[
+										{
+											required: true,
+											message: "Por favor, selcione o produto!"
+										},
+									]}
+								>
+									<AutoComplete
+										options={produtoOptions}
+										placeholder="Produto*"
+										style={styles.inputForm}
+									/>
+								</Form.Item>
+							</Col>
+						</Row>
+						<Row gutter={16}>
+							<Col span={12}>
+								<Form.Item
+									name="quantidade"
+									rules={[
+										{
+											required: true,
+											message:
+												"Por favor, insira a quantidade movimentada!",
+										},
+									]}
+								>
+									<InputNumber
+										placeholder="Quantidade (unidade)*"
+										style={styles.inputForm}
+										min={1}
+									/>
+								</Form.Item>
+							</Col>
+							<Col span={12}>
+								<Form.Item
+									name="data"
+									rules={[
+										{
+											required: true,
+											message:
+												"Por favor, insira a data da movimentação!",
+										},
+									]}
+								>
+									<DatePicker
+										placeholder="Data da movimentação*"
+										value={movimentacaoData && moment(movimentacaoData.data)}
+										onChange={onChange}
+										style={styles.inputForm}
+									/>
+								</Form.Item>
+							</Col>
+						</Row>
+						<Row gutter={16}>
+							<Col span={24}>
+								<Form.Item
+									name="descricao"
+									rules={[
+										{
+											required: false,
+										},
+									]}
+								>
+									<Input
+										placeholder="Descrição"
+										style={styles.inputForm}
+									/>
+								</Form.Item>
+							</Col>
+						</Row>
+						<Row
+							gutter={16}
+							style={{ display: "flex", justifyContent: "center" }}
+						>
+							<Form.Item>
+								<Button style={styles.buttonForm} htmlType="submit">
+									{id !== undefined ? "Editar" : "Cadastrar"}
+								</Button>
+							</Form.Item>
+						</Row>
+					</Form>
+				</div>
 			</div>
 		</PageContent>
 	);

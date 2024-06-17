@@ -23,9 +23,6 @@ import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import ButtonComponent from "../../components/atom/Button";
 import { useNavigate } from "react-router-dom";
-import ColumnSearchUtil from "../../utils/ColumnSearchUtil";
-
-const columnSearchUtil = new ColumnSearchUtil();
 
 const ListaEstoque = () => {
 	const [data, setData] = useState([]);

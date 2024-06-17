@@ -8,27 +8,21 @@ import {
 	Tooltip,
 	Row,
 	Col,
+	Input
 } from "antd";
 import axios from "axios";
 import PageContent from "../../components/page-content";
-import {
-	EditOutlined,
-	PlusOutlined,
-	UnorderedListOutlined,
-	InsertRowLeftOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import ButtonComponent from "../../components/atom/Button";
 import { useParams, useNavigate } from "react-router-dom";
-import ColumnSearchUtil from "../../utils/ColumnSearchUtil";
-
-const columnSearchUtil = new ColumnSearchUtil();
 
 const ListaMovimentacaoEstoque = () => {
 	let { id_estoque } = useParams();
 	const [data, setData] = useState([]);
-	// const flag_admin = localStorage.getItem("flag_admin");
+	const [searchValue, setSearchValue] = useState("");
+	const flag_admin = localStorage.getItem("admin_flag");
 	const navigate = useNavigate();
 	const columns = [
 		{
@@ -46,7 +40,7 @@ const ListaMovimentacaoEstoque = () => {
 			dataIndex: "tipo",
 			key: "tipo",
 			render: (tipo) => (tipo === 1 ? "Saída" : "Entrada"),
-		  },
+		},
 		{
 			title: "Data Movimentação",
 			dataIndex: "data",
@@ -63,24 +57,24 @@ const ListaMovimentacaoEstoque = () => {
 			key: "action",
 			render: (_, record) => (
 				<Space size="middle">
-					{/* {flag_admin === "true" && ( */}
-					<Popconfirm
-						title="Tem certeza que deseja excluir?"
-						onConfirm={() => handleDelete(record.id)}
-						onCancel={() => {}}
-						okText="Sim"
-						cancelText="Não"
-					>
-						<Button type="link" danger icon={<DeleteOutlined />} />
-					</Popconfirm>
-					{/* )} */}
-					{/* {flag_admin === "true" && ( */}
-					<Tooltip title="Editar">
-						<Link to={`/movimentacao-estoque/${record.id}`}>
-							<Button type="link" icon={<EditOutlined />} />
-						</Link>
-					</Tooltip>
-					{/* )} */}
+					{flag_admin === "true" && (
+						<Popconfirm
+							title="Tem certeza que deseja excluir?"
+							onConfirm={() => handleDelete(record.id)}
+							onCancel={() => { }}
+							okText="Sim"
+							cancelText="Não"
+						>
+							<Button type="link" danger icon={<DeleteOutlined />} />
+						</Popconfirm>
+					)}
+					{flag_admin === "true" && (
+						<Tooltip title="Editar">
+							<Link to={`/movimentacao-estoque/${record.id}`}>
+								<Button type="link" icon={<EditOutlined />} />
+							</Link>
+						</Tooltip>
+					)}
 				</Space>
 			),
 		},
@@ -109,6 +103,13 @@ const ListaMovimentacaoEstoque = () => {
 	useEffect(() => {
 		fetchData();
 	}, [id_estoque]);
+
+	const onSearch = async (value) => {
+		const response = await axios.get(
+			`http://localhost:8080/movimentacoes-estoque/${id_estoque}?search=${searchValue}`,
+		);
+		setData(response.data);
+	};
 
 	return (
 		<PageContent>
@@ -164,11 +165,45 @@ const ListaMovimentacaoEstoque = () => {
 							}}
 						/>
 						<ButtonComponent
-							title="Nova entrada"	
+							title="Nova entrada"
 							style={{ marginRight: "15px" }}
 							icon={<PlusOutlined />}
 							onClick={() => {
 								navigate("/movimentacao-estoque?tipo=0");
+							}}
+						/>
+					</Col>
+				</Row>
+				<Row
+					gutter={24}
+					style={{
+						width: "100%",
+						display: "flex",
+						justifyContent: "space-between",
+						background: "#fff",
+					}}
+				>
+					<Col span={24} style={{ width: "100%" }}>
+						<Input
+							placeholder="Pesquisar..."
+							addonAfter={
+								<SearchOutlined
+									style={{
+										color: "#d4d4d4",
+										cursor: "pointer",
+									}}
+									onClick={onSearch}
+								/>
+							}
+							onPressEnter={onSearch}
+							value={searchValue}
+							onChange={(e) => setSearchValue(e.target.value)}
+							style={{
+								border: "1px solid #e6ebf1",
+								borderRadius: "10px",
+								width: "100%",
+								marginTop: "5px", // Adicionado para espaço entre a barra de pesquisa e a tabela
+								marginBottom: "5px",
 							}}
 						/>
 					</Col>

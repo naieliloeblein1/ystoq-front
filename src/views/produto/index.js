@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Row, Col, InputNumber, Select, AutoComplete } from "antd";
+import { Form, Input, Button, Row, Col, InputNumber, AutoComplete } from "antd";
 import PageContent from "../../components/page-content";
 import styles from "./styles";
 import Swal from "sweetalert2";
@@ -7,29 +7,29 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const Produto = () => {
-    let { id } = useParams();
-    const [produtoData, setProdutoData] = useState(null);
-    const [isDataLoaded, setIsDataLoaded] = useState(false);
-    const [categoriasProduto, setCategoriasProduto] = useState([]);
+	let { id } = useParams();
+	const [produtoData, setProdutoData] = useState(null);
+	const [isDataLoaded, setIsDataLoaded] = useState(false);
+	const [categoriasProduto, setCategoriasProduto] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                if (id !== undefined) {
-                    const response = await axios.get(`http://localhost:8080/produto/${id}`);
-                    setProdutoData(response.data);
-                }
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				if (id !== undefined) {
+					const response = await axios.get(`http://localhost:8080/produto/${id}`);
+					setProdutoData(response.data);
+				}
 
-                const categorias = await axios.get(`http://localhost:8080/categoria-produto`);
-                setCategoriasProduto(categorias.data.map(item => ({ value: item.descricao, id: item.id })));
+				const categorias = await axios.get(`http://localhost:8080/categoria-produto`);
+				setCategoriasProduto(categorias.data.map(item => ({ value: item.descricao, id: item.id })));
 
-                setIsDataLoaded(true);
-            } catch (error) {
-                console.error("Erro ao buscar dados:", error);
-            }
-        };
+				setIsDataLoaded(true);
+			} catch (error) {
+				console.error("Erro ao buscar dados:", error);
+			}
+		};
 
-        fetchData();
+		fetchData();
 	}, [id]);
 
 	if (!isDataLoaded) {
@@ -99,100 +99,114 @@ const Produto = () => {
 				style={{
 					display: "flex",
 					flexDirection: "column",
-					justifyContent: "center",
+					justifyContent: "flex-start",
 					alignItems: "center",
 					width: "100%",
+					minHeight: "100vh",
+					paddingTop: 40,
 				}}
 			>
-				<h1
+				<div
 					style={{
-						color: "#377599",
-						fontWeight: "bold",
-						marginTop: 100,
-						fontSize: 28,
+						backgroundColor: "white",
+						padding: 40,
+						borderRadius: 8,
+						boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+						maxWidth: "100%",
+						width: "100vh",
+						textAlign: "center",
+						minHeight: "60vh",
 					}}
 				>
-					{id !== undefined ? "Edição " : "Cadastro "}de Produto
-				</h1>
-				<Form
-					name="cadastro-produto"
-					onFinish={onFinish}
-					labelCol={{ span: 12 }}
-					wrapperCol={{ span: 24 }}
-					style={{
-						marginTop: 50,
-						width: "100%",
-					}}
-					initialValues={produtoData}
-				>
-					<Row gutter={16}>
-						<Col span={12}>
-							<Form.Item
-								name="descricao"
-								rules={[
-									{
-										required: true,
-										message:
-											"Por favor, insira a descrição!",
-									},
-								]}
-							>
-								<Input
-									placeholder="Descrição*"
-									style={styles.inputForm}
-								/>
-							</Form.Item>
-						</Col>
-						<Col span={12}>
-							<Form.Item
-								name="quantidade"
-								rules={[
-									{
-										required: true,
-										message:
-											"Por favor, insira a quantidade!",
-									},
-								]}
-							>
-								<InputNumber
-									placeholder="Quantidade*"
-									style={styles.inputForm}
-									min={1}
-								/>
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row gutter={16}>
-						<Col span={12}>
-							<Form.Item
-								name="categoria_produto"
-								rules={[
-									{
-										required: true,
-										message: "Por favor, selcione a categoria!"
-									},
-								]}
-							>
-								<AutoComplete
-									options={categoriasProduto}
-									placeholder="Estoque*"
-									style={styles.inputForm}
-								/>
-							</Form.Item>
-						</Col>
-					</Row>
-					<Row
-						gutter={16}
-						style={{ display: "flex", justifyContent: "center" }}
-						
+					<h1
+						style={{
+							color: "#377599",
+							fontWeight: "bold",
+							marginTop: 0,
+							fontSize: 28,
+						}}
 					>
-						<Form.Item>
-							<Button style={styles.buttonForm} htmlType="submit">
-								{id !== undefined ? "Editar" : "Cadastrar"}
-							</Button>
-						</Form.Item>
-					</Row>
-				</Form>
+						{id !== undefined ? "Edição " : "Cadastro "}de Produto
+					</h1>
+					<Form
+						name="cadastro-produto"
+						onFinish={onFinish}
+						labelCol={{ span: 24 }}
+						wrapperCol={{ span: 24 }}
+						style={{
+							marginTop: 20,
+						}}
+						initialValues={produtoData}
+					>
+						<Row gutter={16}>
+							<Col span={24}>
+								<Form.Item
+									name="descricao"
+									rules={[
+										{
+											required: true,
+											message:
+												"Por favor, insira a descrição!",
+										},
+									]}
+								>
+									<Input
+										placeholder="Descrição*"
+										style={styles.inputForm}
+									/>
+								</Form.Item>
+							</Col>
+						</Row>
+						<Row gutter={16}>
+							<Col span={12}>
+								<Form.Item
+									name="quantidade"
+									rules={[
+										{
+											required: true,
+											message:
+												"Por favor, insira a quantidade!",
+										},
+									]}
+								>
+									<InputNumber
+										placeholder="Quantidade mínima*"
+										style={styles.inputForm}
+										min={1}
+									/>
+								</Form.Item>
+							</Col>
+							<Col span={12}>
+								<Form.Item
+									name="categoria_produto"
+									rules={[
+										{
+											required: true,
+											message: "Por favor, selcione a categoria!"
+										},
+									]}
+								>
+									<AutoComplete
+										options={categoriasProduto}
+										placeholder="Categoria*"
+										style={styles.inputForm}
+									/>
+								</Form.Item>
+							</Col>
+						</Row>
+						<Row
+							gutter={16}
+							style={{ display: "flex", justifyContent: "center" }}
+
+						>
+							<Form.Item>
+								<Button style={styles.buttonForm} htmlType="submit">
+									{id !== undefined ? "Editar" : "Cadastrar"}
+								</Button>
+							</Form.Item>
+						</Row>
+					</Form>
+				</div>
 			</div>
 		</PageContent>
 	);
