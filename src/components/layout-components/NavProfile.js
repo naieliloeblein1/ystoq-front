@@ -27,11 +27,9 @@ export const NavProfile = () => {
 									>
 										<Link to={`http://localhost:3000/`}>
 											<div style={{ display: "flex" }}>
-												<div style={{ flexGrow: 1 }}>
+												<LogoutOutlined />
+												<div style={{ paddingLeft: 3 }}>
 													<span>Sair</span>
-												</div>
-												<div>
-													<LogoutOutlined />
 												</div>
 											</div>
 										</Link>
