@@ -37,7 +37,7 @@ const ListaProduto = () => {
 		},
 		{
 			title: "Categoria do produto",
-			dataIndex: "categoria_produto",
+			dataIndex: ["categoria_produto", "descricao"],
 			key: "categoria_produto",
 		},
 		{

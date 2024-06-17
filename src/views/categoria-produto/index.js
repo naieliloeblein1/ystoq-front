@@ -35,7 +35,7 @@ const Categoria = () => {
 		try {
 			if (id === undefined) {
 				const response = await axios.post(
-					"http://localhost:8080/categoria",
+					"http://localhost:8080/categoria-produto",
 					values,
 				);
 				Swal.fire({
@@ -49,12 +49,12 @@ const Categoria = () => {
 				let response = null;
 				if (id > 0) {
 					response = await axios.put(
-						`http://localhost:8080/categoria/${id}`,
+						`http://localhost:8080/categoria-produto/${id}`,
 						values,
 					);
 				} else {
 					response = await axios.put(
-						`http://localhost:8080/categoria/${categoriaData.id}`,
+						`http://localhost:8080/categoria-produto/${categoriaData.id}`,
 						values,
 					);
 				}
@@ -69,7 +69,7 @@ const Categoria = () => {
 
 			// Agora, aguarde 2 segundos antes de redirecionar
 			setTimeout(() => {
-				window.location.href = "/lista-categorias";
+				window.location.href = "/lista-categoria-produto";
 			}, 1300);
 		} catch (error) {
 			Swal.fire({
@@ -115,7 +115,7 @@ const Categoria = () => {
 					initialValues={categoriaData}
 				>
 					<Row gutter={16}>
-						<Col span={12}>
+						<Col span={16}>
 							<Form.Item
 								name="descricao"
 								rules={[

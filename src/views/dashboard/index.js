@@ -169,28 +169,6 @@ const Dashboard = (props) => {
 							Dashboard
 						</h1>
 					</Col>
-					<Col
-						span={12}
-						style={{
-							display: "flex",
-							justifyContent: "right",
-							alignItems: "center",
-						}}
-					>
-						<SelectFiltroPeriodo
-							rangePicker
-							colSpan={16}
-							defaultValue={selectedRange}
-							onChange={(value) => {
-								setSelectedRange(value.id);
-								setFiltros({
-									...filtros,
-									data_inicial: value.start,
-									data_final: value.end,
-								});
-							}}
-						/>
-					</Col>
 				</Row>
 				<Row gutter={16} style={{ width: "100%", marginBottom: 30 }}>
 					<Card

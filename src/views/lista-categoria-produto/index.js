@@ -14,7 +14,6 @@ import PageContent from "../../components/page-content";
 import {
 	EditOutlined,
 	PlusOutlined,
-	UnorderedListOutlined,
 } from "@ant-design/icons";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -53,7 +52,7 @@ const ListaCategoria = () => {
 					{/* )} */}
 					{/* {flag_admin === "true" && ( */}
 					<Tooltip title="Editar">
-						<Link to={`/categoria/${record.id}`}>
+						<Link to={`/categoria-produto/${record.id}`}>
 							<Button type="link" icon={<EditOutlined />} />
 						</Link>
 					</Tooltip>
@@ -65,7 +64,7 @@ const ListaCategoria = () => {
 
 	const fetchData = async () => {
 		try {
-			const response = await axios.get("http://localhost:8080/categoria");
+			const response = await axios.get("http://localhost:8080/categoria-produto");
 			setData(response.data);
 		} catch (error) {
 			console.error("Erro ao buscar dados:", error);
@@ -74,7 +73,7 @@ const ListaCategoria = () => {
 
 	const handleDelete = async (id) => {
 		try {
-			await axios.delete(`http://localhost:8080/categoria/${id}`);
+			await axios.delete(`http://localhost:8080/categoria-produto/${id}`);
 			message.success("Categoria excluído com sucesso!");
 			fetchData();
 		} catch (error) {
@@ -133,7 +132,7 @@ const ListaCategoria = () => {
 							style={{ marginRight: "15px" }}
 							icon={<PlusOutlined />}
 							onClick={() => {
-								navigate("/categoria");
+								navigate("/categoria-produto");
 							}}
 						/>
 					</Col>
