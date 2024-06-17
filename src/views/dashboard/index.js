@@ -4,11 +4,14 @@ import Swal from "sweetalert2";
 import moment from "moment";
 import Chart from "react-apexcharts";
 import PageContent from "../../components/page-content";
-import { COLOR_1, COLOR_2, COLOR_4 } from "../../constants/ChartConstant";
+import { COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, COLOR_6, COLOR_7 } from "../../constants/ChartConstant";
 import SelectFiltroPeriodo from "../../components/molecule/SelectFiltroPeriodo";
+import axios from "axios";
 
 const Dashboard = (props) => {
-	// const [data, setData] = useState();
+	const [data = [], setData] = useState();
+	const [dataEstoque = [], setDataEstoque] = useState();
+	const [dataProdutos = [], setDataProdutos] = useState();
 	const [filtros, setFiltros] = useState({
 		dataInicio: moment().startOf("month").format(),
 		dataFim: moment().endOf("day").format(),
@@ -17,7 +20,12 @@ const Dashboard = (props) => {
 
 	const obterDados = async () => {
 		try {
-			await Promise.all([getDashboard()]);
+			let response =  await axios.get("http://localhost:8080/dashboard-entrada-saida");
+			let quantidade_estoque = await axios.get("http://localhost:8080/dashboard-quantidade-estoque");
+			setData(response.data);
+			setDataEstoque(quantidade_estoque.data.estoques);
+			setDataProdutos(quantidade_estoque.data.dados);
+
 		} catch (e) {
 			Swal.fire({
 				icon: "error",
@@ -27,28 +35,19 @@ const Dashboard = (props) => {
 		}
 	};
 
-	const getDashboard = async () => {
-		// setData(await inteligenciaService.getAll({ filters: { ...filtros } }));
-	};
-
 	useEffect(() => {
 		obterDados();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [filtros]);
+	}, []);
 
 	const stateEntradaSaida = {
-		// series: [
-		//     data?.entrada?.novos ?? 0,
-		//     data?.saida?.ativos ?? 0
-		// ],
 		series: [
 			{
 				name: "Entrada",
-				data: [44, 55, 57, 56, 61, 58, 63, 60, 66, 99, 44, 55],
+				data: data.map(item => parseInt(item.entrada)),
 			},
 			{
 				name: "Saída",
-				data: [76, 85, 101, 98, 87, 105, 91, 114, 94, 94, 76, 85],
+				data: data.map(item => parseInt(item.saida)),
 			},
 		],
 
@@ -93,33 +92,11 @@ const Dashboard = (props) => {
 			fill: {
 				opacity: 1,
 			},
-
-			// tooltip: {
-			// 	y: {
-			// 		formatter: (val) => `${val}`,
-			// 	},
-			// },
 		},
 	};
 
 	const stateQtdeDisponivel = {
-		// series: [
-		//     data?.estoque?.map((item) => item.qtde_disponivel) ?? []
-		// ],
-		series: [
-			{
-				name: "PRODUCT A",
-				data: [44, 55, 41, 67, 22, 43],
-			},
-			{
-				name: "PRODUCT B",
-				data: [13, 23, 20, 8, 13, 27],
-			},
-			{
-				name: "PRODUCT C",
-				data: [11, 17, 15, 15, 21, 14],
-			},
-		],
+		series: dataProdutos,
 
 		options: {
 			chart: {
@@ -132,7 +109,7 @@ const Dashboard = (props) => {
 				},
 			},
 
-			colors: [COLOR_1, COLOR_2, COLOR_4],
+			colors: [COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, COLOR_6, COLOR_7],
 
 			responsive: [
 				{
@@ -155,15 +132,7 @@ const Dashboard = (props) => {
 
 			xaxis: {
 				type: "category",
-				categories: [
-					// data?.estoque?.map((item) => item.descricao) ?? [],\
-					"Estoque 1",
-					"Estoque 2",
-					"Estoque 3",
-					"Estoque 4",
-					"Estoque 5",
-					"Estoque 6",
-				],
+				categories: dataEstoque.map((item) => item.descricao),
 			},
 
 			legend: {
