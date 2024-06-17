@@ -8,6 +8,7 @@ import {
 	Tooltip,
 	Row,
 	Col,
+	Input,
 } from "antd";
 import axios from "axios";
 import PageContent from "../../components/page-content";
@@ -16,6 +17,7 @@ import {
 	PlusOutlined,
 	UnorderedListOutlined,
 	InsertRowLeftOutlined,
+	SearchOutlined,
 } from "@ant-design/icons";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -27,6 +29,7 @@ const columnSearchUtil = new ColumnSearchUtil();
 
 const ListaEstoque = () => {
 	const [data, setData] = useState([]);
+	const [searchValue, setSearchValue] = useState("");
 	// const flag_admin = localStorage.getItem("flag_admin");
 	const navigate = useNavigate();
 	const columns = [
@@ -34,7 +37,6 @@ const ListaEstoque = () => {
 			title: "Descrição",
 			dataIndex: "descricao",
 			key: "descricao",
-			...columnSearchUtil.getColumnSearchProps("descricao"),
 		},
 		{
 			title: "Endereço",
@@ -45,7 +47,6 @@ const ListaEstoque = () => {
 			title: "Quantidade máxima",
 			dataIndex: "quantidade",
 			key: "quantidade",
-			sorter: true,
 		},
 		{
 			title: "Ações",
@@ -115,6 +116,13 @@ const ListaEstoque = () => {
 		fetchData();
 	}, []);
 
+	const onSearch = async (value) => {
+		const response = await axios.get(
+			`http://localhost:8080/estoque?search=${searchValue}`,
+		);
+		setData(response.data);
+	};
+
 	return (
 		<PageContent>
 			<div
@@ -132,12 +140,16 @@ const ListaEstoque = () => {
 						justifyContent: "space-between",
 						marginTop: "40px",
 						padding: 28,
+						paddingBottom: 0,
 						background: "#fff",
 						borderTopRightRadius: 5,
 						borderTopLeftRadius: 5,
 					}}
 				>
-					<Col span={12}>
+					<Col
+						span={8}
+						style={{ display: "flex", flexDirection: "column" }}
+					>
 						<h1
 							style={{
 								color: "#377599",
@@ -178,11 +190,45 @@ const ListaEstoque = () => {
 							}}
 						/>
 						<ButtonComponent
-							title="Nova entrada"	
+							title="Nova entrada"
 							style={{ marginRight: "15px" }}
 							icon={<PlusOutlined />}
 							onClick={() => {
 								navigate("/movimentacao-estoque?tipo=0");
+							}}
+						/>
+					</Col>
+				</Row>
+				<Row
+					gutter={24}
+					style={{
+						width: "100%",
+						display: "flex",
+						justifyContent: "space-between",
+						background: "#fff",
+					}}
+				>
+					<Col span={24} style={{ width: "100%" }}>
+						<Input
+							placeholder="Pesquisar..."
+							addonAfter={
+								<SearchOutlined
+									style={{
+										color: "#d4d4d4",
+										cursor: "pointer",
+									}}
+									onClick={onSearch}
+								/>
+							}
+							onPressEnter={onSearch}
+							value={searchValue}
+							onChange={(e) => setSearchValue(e.target.value)}
+							style={{
+								border: "1px solid #e6ebf1",
+								borderRadius: "10px",
+								width: "100%",
+								marginTop: "5px", // Adicionado para espaço entre a barra de pesquisa e a tabela
+								marginBottom: "5px",
 							}}
 						/>
 					</Col>

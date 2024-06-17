@@ -117,7 +117,7 @@ const ListaCategoria = () => {
 								fontSize: 28,
 							}}
 						>
-							Categoria
+							Categorias de Produto
 						</h1>
 					</Col>
 					<Col

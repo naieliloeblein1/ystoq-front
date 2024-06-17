@@ -14,6 +14,8 @@ import CadastroUsuario from "../../views/usuario";
 import ListaProduto from "../../views/lista-produtos";
 import Produto from "../../views/produto";
 import MovimentacaoEstoque from "../../views/movimentacao-estoque";
+import ListaCategoria from "../../views/lista-categorias";
+import Categoria from "../../views/categoria";
 
 const { Content } = Layout;
 
@@ -65,6 +67,12 @@ const AppLayout = () => {
 								path="/movimentacao-estoque"
 								element={<MovimentacaoEstoque />}
 							/>
+							<Route
+								path="/lista-categorias"
+								element={<ListaCategoria />}
+							/>
+							<Route path="/categoria" element={<Categoria />} />
+							<Route path="/categoria/:id" element={<Categoria />} />
 						</Routes>
 					</Content>
 					<Footer />
