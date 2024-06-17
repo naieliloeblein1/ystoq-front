@@ -15,7 +15,7 @@ const Categoria = () => {
 		const fetchData = async () => {
 			try {
 				if (id !== undefined) {
-					const response = await axios.get(`http://localhost:8080/categoria/${id}`);
+					const response = await axios.get(`http://localhost:8080/categoria-produto/${id}`);
 					setCategoriaData(response.data);
 				}
 

@@ -16,8 +16,15 @@ const Produto = () => {
 		const fetchData = async () => {
 			try {
 				if (id !== undefined) {
-					const response = await axios.get(`http://localhost:8080/produto/${id}`);
-					setProdutoData(response.data);
+					let response;
+					response = await axios.get(`http://localhost:8080/produto/${id}`);
+					
+					let newValues = {
+						descricao: response.data.descricao,
+						quantidade: response.data.quantidade,
+						categoria_produto: response.data.categoria_produto.descricao
+					}
+					setProdutoData(newValues);
 				}
 
 				const categorias = await axios.get(`http://localhost:8080/categoria-produto`);
