@@ -22,9 +22,10 @@ import {
 import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import ButtonComponent from "../../components/atom/Button";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
-const ListaEstoque = () => {
+const EstoqueProduto = () => {
+	let { id } = useParams();
 	const [data, setData] = useState([]);
 	const [searchValue, setSearchValue] = useState("");
 	const admin_flag = localStorage.getItem('admin_flag');
@@ -32,16 +33,11 @@ const ListaEstoque = () => {
 	const columns = [
 		{
 			title: "Descrição",
-			dataIndex: "descricao",
+			dataIndex: ["produto", "descricao"],
 			key: "descricao",
 		},
 		{
-			title: "Endereço",
-			dataIndex: "endereco",
-			key: "endereco",
-		},
-		{
-			title: "Quantidade máxima",
+			title: "Quantidade do produto",
 			dataIndex: "quantidade",
 			key: "quantidade",
 		},
@@ -69,7 +65,7 @@ const ListaEstoque = () => {
 					</Tooltip>
 					)}
 					<Tooltip title="Ver produtos em estoque">
-						<Link to={`/estoque-produto/${record.id}`}>
+						<Link to={`/produtos-estoque/${record.id}`}>
 							<Button
 								type="link"
 								icon={<UnorderedListOutlined />}
@@ -92,7 +88,7 @@ const ListaEstoque = () => {
 
 	const fetchData = async () => {
 		try {
-			const response = await axios.get("http://localhost:8080/estoque");
+			const response = await axios.get(`http://localhost:8080/estoque-produto/${id}`);
 			setData(response.data);
 		} catch (error) {
 			console.error("Erro ao buscar dados:", error);
@@ -260,4 +256,4 @@ const ListaEstoque = () => {
 	);
 };
 
-export default ListaEstoque;
+export default EstoqueProduto;
