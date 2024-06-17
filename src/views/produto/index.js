@@ -20,8 +20,7 @@ const Produto = () => {
                     setProdutoData(response.data);
                 }
 
-                const categorias = await axios.get(`http://localhost:8080/categoria`);
-				console.log(categorias);
+                const categorias = await axios.get(`http://localhost:8080/categoria-produto`);
                 setCategoriasProduto(categorias.data.map(item => ({ value: item.descricao, id: item.id })));
 
                 setIsDataLoaded(true);

@@ -48,7 +48,7 @@ const SideNav = () => {
 				</Link>
 			</Menu.Item>
 			<Menu.Item key="5">
-				<Link to="/lista-categorias">
+				<Link to="/lista-categoria-produto">
 					<span style={{ paddingRight: 3 }}>
 						<UnorderedListOutlined />
 					</span>
