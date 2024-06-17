@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { DropboxOutlined, BarChartOutlined, TeamOutlined, ProductOutlined, UnorderedListOutlined } from "@ant-design/icons";
 
 const SideNav = () => {
+	const admin_flag = localStorage.getItem('admin_flag') === 'true';
 	return (
 		<Menu
 			mode="inline"
@@ -22,7 +23,7 @@ const SideNav = () => {
 					<span>Dashboard</span>
 				</Link>
 			</Menu.Item>
-			<Menu.Item key="2">
+			<Menu.Item key="2" style={{ display: admin_flag ? 'block' : 'none' }}>
 				<Link to="/lista-estoque">
 					<span style={{ paddingRight: 3 }}>
 						<DropboxOutlined />
@@ -30,7 +31,7 @@ const SideNav = () => {
 					<span>Estoques</span>
 				</Link>
 			</Menu.Item>
-			<Menu.Item key="3">
+			<Menu.Item key="3" style={{ display: admin_flag ? 'block' : 'none' }}> 
 				<Link to="/lista-usuarios">
 					<span style={{ paddingRight: 3 }}>
 						<TeamOutlined />
@@ -47,7 +48,7 @@ const SideNav = () => {
 				</Link>
 			</Menu.Item>
 			<Menu.Item key="5">
-				<Link to="/lista-categorias">
+				<Link to="/lista-categoria-produto">
 					<span style={{ paddingRight: 3 }}>
 						<UnorderedListOutlined />
 					</span>
