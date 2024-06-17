@@ -27,7 +27,6 @@ import { useParams, useNavigate } from "react-router-dom";
 const EstoqueProduto = () => {
 	let { id } = useParams();
 	const [data, setData] = useState([]);
-	const [searchValue, setSearchValue] = useState("");
 	const admin_flag = localStorage.getItem('admin_flag');
 	const navigate = useNavigate();
 	const columns = [
@@ -41,49 +40,6 @@ const EstoqueProduto = () => {
 			dataIndex: "quantidade",
 			key: "quantidade",
 		},
-		{
-			title: "Ações",
-			key: "action",
-			render: (_, record) => (
-				<Space size="middle">
-					{admin_flag === "true" && (
-					<Popconfirm
-						title="Tem certeza que deseja excluir?"
-						onConfirm={() => handleDelete(record.id)}
-						onCancel={() => {}}
-						okText="Sim"
-						cancelText="Não"
-					>
-						<Button type="link" danger icon={<DeleteOutlined />} />
-					</Popconfirm>
-					)}
-					{admin_flag === "true" && (
-					<Tooltip title="Editar">
-						<Link to={`/estoque/${record.id}`}>
-							<Button type="link" icon={<EditOutlined />} />
-						</Link>
-					</Tooltip>
-					)}
-					<Tooltip title="Ver produtos em estoque">
-						<Link to={`/produtos-estoque/${record.id}`}>
-							<Button
-								type="link"
-								icon={<UnorderedListOutlined />}
-							/>
-						</Link>
-					</Tooltip>
-					<Tooltip title="Ver movimentações do estoque">
-						<Link to={`/lista-movimentacao-estoque/${record.id}`}>
-							<Button
-								type="link"
-								icon={<InsertRowLeftOutlined />}
-							/>
-						</Link>
-					</Tooltip>
-					
-				</Space>
-			),
-		},
 	];
 
 	const fetchData = async () => {
@@ -95,26 +51,10 @@ const EstoqueProduto = () => {
 		}
 	};
 
-	const handleDelete = async (id) => {
-		try {
-			await axios.delete(`http://localhost:8080/estoque/${id}`);
-			message.success("Estoque excluído com sucesso!");
-			fetchData();
-		} catch (error) {
-			message.error(error.response.data.error);
-		}
-	};
-
 	useEffect(() => {
 		fetchData();
 	}, []);
 
-	const onSearch = async (value) => {
-		const response = await axios.get(
-			`http://localhost:8080/estoque?search=${searchValue}`,
-		);
-		setData(response.data);
-	};
 
 	return (
 		<PageContent>
@@ -150,82 +90,8 @@ const EstoqueProduto = () => {
 								fontSize: 28,
 							}}
 						>
-							Estoques
+							Produtos no Estoque
 						</h1>
-					</Col>
-					<Col
-						span={12}
-						style={{
-							display: "flex",
-							justifyContent: "right",
-							alignItems: "center",
-						}}
-					>
-						{admin_flag === "true" && (
-						<ButtonComponent
-							title="Cadastrar Estoque"
-							style={{ marginRight: "15px" }}
-							icon={<PlusOutlined />}
-							onClick={() => {
-								navigate("/estoque");
-							}}
-						/>
-						)}
-
-						<ButtonComponent
-							style={{
-								background: "rgb(238, 0, 0)",
-								border: "1px solid rgb(238, 0, 0)",
-								marginRight: "15px",
-							}}
-							title="Nova saída"
-							icon={<PlusOutlined />}
-							onClick={() => {
-								navigate("/movimentacao-estoque?tipo=1");
-							}}
-						/>
-						<ButtonComponent
-							title="Nova entrada"
-							style={{ marginRight: "15px" }}
-							icon={<PlusOutlined />}
-							onClick={() => {
-								navigate("/movimentacao-estoque?tipo=0");
-							}}
-						/>
-					</Col>
-				</Row>
-				<Row
-					gutter={24}
-					style={{
-						width: "100%",
-						display: "flex",
-						justifyContent: "space-between",
-						background: "#fff",
-					}}
-				>
-					<Col span={24} style={{ width: "100%" }}>
-						<Input
-							placeholder="Pesquisar..."
-							addonAfter={
-								<SearchOutlined
-									style={{
-										color: "#d4d4d4",
-										cursor: "pointer",
-									}}
-									onClick={onSearch}
-								/>
-							}
-							onPressEnter={onSearch}
-							value={searchValue}
-							onChange={(e) => setSearchValue(e.target.value)}
-							style={{
-								border: "1px solid #e6ebf1",
-								borderRadius: "10px",
-								width: "100%",
-								marginTop: "5px", // Adicionado para espaço entre a barra de pesquisa e a tabela
-								marginBottom: "5px",
-							}}
-						/>
 					</Col>
 				</Row>
 				<Row
