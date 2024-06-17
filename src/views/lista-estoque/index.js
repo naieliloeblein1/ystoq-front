@@ -107,8 +107,7 @@ const ListaEstoque = () => {
 			message.success("Estoque excluído com sucesso!");
 			fetchData();
 		} catch (error) {
-			console.error("Erro ao excluir estoque:", error.message);
-			message.error("Erro ao excluir item. Por favor, tente novamente.");
+			message.error(error.response.data.error);
 		}
 	};
 
