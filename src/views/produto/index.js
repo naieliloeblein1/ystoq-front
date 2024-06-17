@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Row, Col, InputNumber, Select } from "antd";
+import { Form, Input, Button, Row, Col, InputNumber, Select, AutoComplete } from "antd";
 import PageContent from "../../components/page-content";
 import styles from "./styles";
 import Swal from "sweetalert2";
@@ -22,7 +22,7 @@ const Produto = () => {
 
                 const categorias = await axios.get(`http://localhost:8080/categoria`);
 				console.log(categorias);
-                setCategoriasProduto(categorias.data);
+                setCategoriasProduto(categorias.data.map(item => ({ value: item.descricao, id: item.id })));
 
                 setIsDataLoaded(true);
             } catch (error) {
@@ -38,6 +38,8 @@ const Produto = () => {
 	}
 	const onFinish = async (values) => {
 		try {
+			values.id_categoria_produto = getIdByDescription(values.categoria_produto, categoriasProduto);
+
 			if (id === undefined) {
 				const response = await axios.post(
 					"http://localhost:8080/produto",
@@ -85,6 +87,11 @@ const Produto = () => {
 				showConfirmButton: false,
 			});
 		}
+	};
+
+	const getIdByDescription = (description, options) => {
+		const option = options.find(option => option.value === description);
+		return option ? option.id : null;
 	};
 
 	return (
@@ -156,19 +163,25 @@ const Produto = () => {
 							</Form.Item>
 						</Col>
 					</Row>
-					<Select
-							placeholder="Selecione a categoria"
-							filterOption={(input, option) =>
-								option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-							}
-							showSearch
-						>
-							{categoriasProduto.map((categoria) => (
-								<Select.Option key={categoria.id} value={categoria.id}>
-									{categoria.descricao}
-								</Select.Option>
-							))}
-						</Select>
+					<Row gutter={16}>
+						<Col span={12}>
+							<Form.Item
+								name="categoria_produto"
+								rules={[
+									{
+										required: true,
+										message: "Por favor, selcione a categoria!"
+									},
+								]}
+							>
+								<AutoComplete
+									options={categoriasProduto}
+									placeholder="Estoque*"
+									style={styles.inputForm}
+								/>
+							</Form.Item>
+						</Col>
+					</Row>
 					<Row
 						gutter={16}
 						style={{ display: "flex", justifyContent: "center" }}
