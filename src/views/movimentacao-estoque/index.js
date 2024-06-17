@@ -5,17 +5,18 @@ import styles from "./styles";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useParams, useLocation } from "react-router-dom";
+import moment from "moment";
 
 const CadastroMovimentacao = () => {
 	let { id } = useParams();
 	const location = useLocation();
 	const queryParams = new URLSearchParams(location.search);
-	const tipo = queryParams.get('tipo');
 
 	const [movimentacaoData, setMovimentacaoData] = useState(null);
 	const [isDataLoaded, setIsDataLoaded] = useState(false);
 	const [estoqueOptions, setEstoqueOptions] = useState([]);
 	const [produtoOptions, setProdutoOptions] = useState([]);
+    const [tipoMovimentacao, setTipoMovimentacao] = useState('');
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -25,7 +26,20 @@ const CadastroMovimentacao = () => {
 					response = await axios.get(
 						`http://localhost:8080/movimentacao-estoque/${id}`,
 					);
-					setMovimentacaoData(response.data);
+
+					let newValues = {
+						estoque: response.data.estoque.descricao,
+						produto: response.data.produto.descricao,
+						quantidade: response.data.quantidade,
+						data: moment(response.data.data),
+						descricao: response.data.descricao,
+					}
+					setTipoMovimentacao(String(response.data.tipo));
+					setMovimentacaoData(newValues);
+				}
+				else{
+					const tipoFromQueryParam = queryParams.get('tipo');
+					setTipoMovimentacao(tipoFromQueryParam);
 				}
 				setIsDataLoaded(true);
 			} catch (error) {
@@ -64,7 +78,7 @@ const CadastroMovimentacao = () => {
 	}
 	const onFinish = async (values) => {
 		try {
-			values.tipo = tipo;
+			values.tipo = tipoMovimentacao;
 			values.id_estoque = getIdByDescription(values.estoque, estoqueOptions);
 			values.id_produto = getIdByDescription(values.produto, produtoOptions);
 
@@ -103,13 +117,13 @@ const CadastroMovimentacao = () => {
 			}
 
 			// Agora, aguarde 2 segundos antes de redirecionar
-			// setTimeout(() => {
-			// 	window.location.href = "/lista-estoque";
-			// }, 1300);
+			setTimeout(() => {
+				window.location.href = "/lista-movimentacao-estoque/" + values.id_estoque;
+			}, 1300);
 		} catch (error) {
 			Swal.fire({
 				title: "Erro!",
-				text: error,
+				text: error?.response?.data?.error ?? error,
 				icon: "error",
 				timer: 2000,
 				showConfirmButton: false,
@@ -144,7 +158,7 @@ const CadastroMovimentacao = () => {
 					}}
 				>
 					{id !== undefined ? "Edição " : "Cadastro "}de Movimentação (
-					{tipo !== '1' ? "Entrada" : "Saída"})
+					{tipoMovimentacao === '1' ? "Saída" : "Entrada"})
 				</h1>
 				<Form
 					name="cadastro-movimentacao"
@@ -225,6 +239,7 @@ const CadastroMovimentacao = () => {
 							>
 								<DatePicker
 									placeholder="Data da movimentação*"
+									value={movimentacaoData && moment(movimentacaoData.data)}
 									onChange={onChange}
 									style={styles.inputForm}
 								/>
