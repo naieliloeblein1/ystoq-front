@@ -8,9 +8,11 @@ axios.defaults.headers.common['Content-Type'] = 'application/json';
 // Adicione um interceptor para incluir o token em todas as requisições
 axios.interceptors.request.use(
   config => {
-    const token = localStorage.getItem('token'); // Substitua pela forma como você obtém seu token
+    const token = localStorage.getItem('token');
+    const email = localStorage.getItem('email');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['Email'] = `Bearer ${email}`;
     }
     return config;
   },

@@ -31,6 +31,7 @@ const Login = () => {
             console.log('Login realizado com sucesso:', response.data);
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('email', response.data.email);
+            localStorage.setItem('admin_flag', response.data.admin_flag);
             Swal.fire({
                 title: 'Sucesso!',
                 text: response.data.message,

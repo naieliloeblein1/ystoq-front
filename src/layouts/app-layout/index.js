@@ -30,7 +30,7 @@ const AppLayout = () => {
 				<Layout className="site-layout">
 					<Content style={{ margin: "0 16px" }}>
 						<Routes>
-							<Route path="/" element={<Dashboard />} />
+							<Route path="/home" element={<Dashboard />} />
 							<Route
 								path="/lista-estoque"
 								element={<ListaEstoque />}
@@ -54,6 +54,10 @@ const AppLayout = () => {
 								element={<CadastroUsuario />}
 							/>
 							<Route
+								path="/usuario/:id"
+								element={<CadastroUsuario />}
+							/>	
+							<Route	
 								path="/lista-produtos"
 								element={<ListaProduto />}
 							/>

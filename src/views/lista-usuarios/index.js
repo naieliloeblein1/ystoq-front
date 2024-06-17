@@ -4,7 +4,6 @@ import {
 	Table,
 	Popconfirm,
 	Button,
-	message,
 	Tooltip,
 	Row,
 	Col,
@@ -14,16 +13,27 @@ import PageContent from "../../components/page-content";
 import {
 	EditOutlined,
 	PlusOutlined,
-	UnorderedListOutlined,
 } from "@ant-design/icons";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import ButtonComponent from "../../components/atom/Button";
 import { useNavigate } from "react-router-dom";
 import ColumnSearchUtil from "../../utils/ColumnSearchUtil";
+import Swal from "sweetalert2";
 
 const columnSearchUtil = new ColumnSearchUtil();
 
+const showToast = (message, type) => {
+	Swal.fire({
+		toast: true,
+		position: 'top-right',
+		icon: type,
+		title: message,
+		showConfirmButton: false,
+		timer: 1500,
+		timerProgressBar: true,
+	});
+};
 
 const formatPhone = (telefone) => {
 	if (!telefone) return "";
@@ -71,22 +81,12 @@ const ListaUsuarios = () => {
 					>
 						<Button type="link" danger icon={<DeleteOutlined />} />
 					</Popconfirm>
-					{/* )} */}
 					{/* {flag_admin === "true" && ( */}
 					<Tooltip title="Editar">
-						<Link to={`/estoque/${record.id}`}>
+						<Link to={`/usuario/${record.id}`}>
 							<Button type="link" icon={<EditOutlined />} />
 						</Link>
 					</Tooltip>
-					<Tooltip title="Ver produtos em estoque">
-						<Link to={`/produtos-estoque/${record.id}`}>
-							<Button
-								type="link"
-								icon={<UnorderedListOutlined />}
-							/>
-						</Link>
-					</Tooltip>
-					{/* )} */}
 				</Space>
 			),
 		},
@@ -104,11 +104,11 @@ const ListaUsuarios = () => {
 	const handleDelete = async (id) => {
 		try {
 			await axios.delete(`http://localhost:8080/usuario/${id}`);
-			message.success("Usuário excluído com sucesso!");
+			showToast("Usuário deletado com sucesso!", "success");
 			fetchData();
 		} catch (error) {
 			console.error("Erro ao excluir usuário:", error.message);
-			message.error("Erro ao excluir usuário. Por favor, tente novamente.");
+			showToast("Erro ao excluir usuário. Por favor, tente novamente.", "error");
 		}
 	};
 
