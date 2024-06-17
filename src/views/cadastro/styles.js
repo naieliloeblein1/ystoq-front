@@ -1,31 +1,23 @@
-
 const styles = {
-    container: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100vh',
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-    },
-    signupBox: {
-      width: '500px',
-      padding: '20px',
-      border: '1px solid #ccc',
-      borderRadius: '5px',
-      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-      backgroundColor: 'white',
-      textAlign: 'center',
-    },
-    options: {
-      marginTop: '20px'
-    },
-    link: {
-      display: 'block',
-      color: '#007BFF',
-      textDecoration: 'none',
-      marginBottom: '10px'
-    },
-  };
+	inputForm: {
+		height: 40,
+		width: "100%",
+	},
+	buttonForm: {
+		backgroundColor: "#3791C4",
+		background: "linear-gradient(to bottom, #3791C4, #377599)",
+		border: "none",
+		fontWeight: "bold",
+		color: "#fff",
+		width: 250,
+		height: 40,
+		marginTop: 20,
+	},
+	link: {
+		color: "#377599",
+		textDecoration: "none",
+		fontWeight: "bold",
+	},
+};
 
-  export default styles;
+export default styles;
