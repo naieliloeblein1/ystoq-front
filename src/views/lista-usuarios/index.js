@@ -8,45 +8,37 @@ import {
 	Row,
 	Col,
 	message,
+	Input,
 } from "antd";
 import axios from "axios";
 import PageContent from "../../components/page-content";
-import {
-	EditOutlined,
-	PlusOutlined,
-} from "@ant-design/icons";
+import { EditOutlined, PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import { DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import ButtonComponent from "../../components/atom/Button";
 import { useNavigate } from "react-router-dom";
-import ColumnSearchUtil from "../../utils/ColumnSearchUtil";
-
-const columnSearchUtil = new ColumnSearchUtil();
 
 const formatPhone = (telefone) => {
 	if (!telefone) return "";
-    const telefoneString = telefone.toString();
-    return telefoneString.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
+	const telefoneString = telefone.toString();
+	return telefoneString.replace(/^(\d{2})(\d{5})(\d{4})$/, "($1) $2-$3");
 };
 
 const ListaUsuarios = () => {
 	const [data, setData] = useState([]);
-	// const flag_admin = localStorage.getItem("flag_admin");
+	const [searchValue, setSearchValue] = useState("");
+	const admin_flag = localStorage.getItem("admin_flag");
 	const navigate = useNavigate();
 	const columns = [
 		{
 			title: "Nome",
 			dataIndex: "nome",
 			key: "nome",
-			sorter: true,
-			...columnSearchUtil.getColumnSearchProps("nome"),
 		},
 		{
 			title: "Email",
 			dataIndex: "email",
 			key: "email",
-			sorter: true,
-			...columnSearchUtil.getColumnSearchProps("email"),
 		},
 		{
 			title: "Telefone",
@@ -59,22 +51,28 @@ const ListaUsuarios = () => {
 			key: "action",
 			render: (_, record) => (
 				<Space size="middle">
-					{/* {flag_admin === "true" && ( */}
-					<Popconfirm
-						title="Tem certeza que deseja excluir?"
-						onConfirm={() => handleDelete(record.id)}
-						onCancel={() => {}}
-						okText="Sim"
-						cancelText="Não"
-					>
-						<Button type="link" danger icon={<DeleteOutlined />} />
-					</Popconfirm>
-					{/* {flag_admin === "true" && ( */}
-					<Tooltip title="Editar">
-						<Link to={`/usuario/${record.id}`}>
-							<Button type="link" icon={<EditOutlined />} />
-						</Link>
-					</Tooltip>
+					{admin_flag === "true" && (
+						<Popconfirm
+							title="Tem certeza que deseja excluir?"
+							onConfirm={() => handleDelete(record.id)}
+							onCancel={() => {}}
+							okText="Sim"
+							cancelText="Não"
+						>
+							<Button
+								type="link"
+								danger
+								icon={<DeleteOutlined />}
+							/>
+						</Popconfirm>
+					)}
+					{admin_flag === "true" && (
+						<Tooltip title="Editar">
+							<Link to={`/usuario/${record.id}`}>
+								<Button type="link" icon={<EditOutlined />} />
+							</Link>
+						</Tooltip>
+					)}
 				</Space>
 			),
 		},
@@ -98,6 +96,13 @@ const ListaUsuarios = () => {
 			console.error("Erro ao excluir usuário:", error.message);
 			message.error(error.response.data.error);
 		}
+	};
+
+	const onSearch = async (value) => {
+		const response = await axios.get(
+			`http://localhost:8080/usuario?search=${searchValue}`,
+		);
+		setData(response.data);
 	};
 
 	useEffect(() => {
@@ -151,6 +156,40 @@ const ListaUsuarios = () => {
 							icon={<PlusOutlined />}
 							onClick={() => {
 								navigate("/usuario");
+							}}
+						/>
+					</Col>
+				</Row>
+				<Row
+					gutter={24}
+					style={{
+						width: "100%",
+						display: "flex",
+						justifyContent: "space-between",
+						background: "#fff",
+					}}
+				>
+					<Col span={24} style={{ width: "100%" }}>
+						<Input
+							placeholder="Pesquisar..."
+							addonAfter={
+								<SearchOutlined
+									style={{
+										color: "#d4d4d4",
+										cursor: "pointer",
+									}}
+									onClick={onSearch}
+								/>
+							}
+							onPressEnter={onSearch}
+							value={searchValue}
+							onChange={(e) => setSearchValue(e.target.value)}
+							style={{
+								border: "1px solid #e6ebf1",
+								borderRadius: "10px",
+								width: "100%",
+								marginTop: "5px", // Adicionado para espaço entre a barra de pesquisa e a tabela
+								marginBottom: "5px",
 							}}
 						/>
 					</Col>

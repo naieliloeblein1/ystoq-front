@@ -5,6 +5,13 @@ import { DropboxOutlined, BarChartOutlined, TeamOutlined, ProductOutlined, Unord
 
 const SideNav = () => {
 	const admin_flag = localStorage.getItem('admin_flag') === 'true';
+	const email = localStorage.getItem('email');
+	let master;
+	if(email){
+		if(email === 'adminystoq@ystoq.com'){
+			master = true;
+		}
+	}
 	return (
 		<Menu
 			mode="inline"
@@ -55,7 +62,7 @@ const SideNav = () => {
 					<span>Categorias de Produto</span>
 				</Link>
 			</Menu.Item>
-			<Menu.Item key="6" style={{ display: admin_flag ? 'block' : 'none' }}>
+			<Menu.Item key="6" style={{ display: master ? 'block' : 'none' }}>
 				<Link to="/lista-empresa">
 					<span style={{ paddingRight: 3 }}>
 						<HomeOutlined />
