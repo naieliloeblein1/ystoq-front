@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu } from "antd";
 import { Link } from "react-router-dom";
-import { DropboxOutlined, BarChartOutlined, TeamOutlined, ProductOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { DropboxOutlined, BarChartOutlined, TeamOutlined, ProductOutlined, UnorderedListOutlined, HomeOutlined } from "@ant-design/icons";
 
 const SideNav = () => {
 	const admin_flag = localStorage.getItem('admin_flag') === 'true';
@@ -31,7 +31,7 @@ const SideNav = () => {
 					<span>Estoques</span>
 				</Link>
 			</Menu.Item>
-			<Menu.Item key="3" style={{ display: admin_flag ? 'block' : 'none' }}> 
+			<Menu.Item key="3" style={{ display: admin_flag ? 'block' : 'none' }}>
 				<Link to="/lista-usuarios">
 					<span style={{ paddingRight: 3 }}>
 						<TeamOutlined />
@@ -53,6 +53,14 @@ const SideNav = () => {
 						<UnorderedListOutlined />
 					</span>
 					<span>Categorias de Produto</span>
+				</Link>
+			</Menu.Item>
+			<Menu.Item key="6" style={{ display: admin_flag ? 'block' : 'none' }}>
+				<Link to="/lista-empresa">
+					<span style={{ paddingRight: 3 }}>
+						<HomeOutlined />
+					</span>
+					<span>Empresas</span>
 				</Link>
 			</Menu.Item>
 		</Menu>
