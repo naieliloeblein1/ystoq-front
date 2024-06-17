@@ -44,7 +44,7 @@ const Login = () => {
         } catch (error) {
             Swal.fire({
                 title: 'Erro!',
-                text: error.response ? error.response.data.error : "Erro ao tentar fazer login.",
+                text: error.response ? error.response.data.message : "Erro ao tentar fazer login.",
                 icon: 'error',
                 timer: 2000,
                 showConfirmButton: false,

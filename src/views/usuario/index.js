@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Button, Row, Col } from "antd";
+import { Form, Input, Button, Row, Col, message } from "antd";
 import PageContent from "../../components/page-content";
-import Swal from "sweetalert2";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import styles from "./styles";
@@ -54,18 +53,6 @@ const CadastroUsuario = () => {
         return <div>Carregando...</div>;
     }
 
-    const showToast = (message, type) => {
-        Swal.fire({
-            toast: true,
-            position: 'top-right',
-            icon: type,
-            title: message,
-            showConfirmButton: false,
-            timer: 1500,
-            timerProgressBar: true,
-        });
-    };
-
     const onFinish = async (values) => {
         try {
             if (id === undefined) {
@@ -73,7 +60,7 @@ const CadastroUsuario = () => {
                     "http://localhost:8080/cadastro-usuario",
                     values,
                 );
-                showToast("Usuário cadastrado com sucesso!", "success");
+                message.success("Usuário cadastrado com sucesso!");
             } else {
                 if (id > 0) {
                     await axios.put(
@@ -81,14 +68,14 @@ const CadastroUsuario = () => {
                         values,
                     );
                 }
-                showToast("Usuário editado com sucesso!", "success");
+                message.success("Usuário editado com sucesso!");
             }
 
             setTimeout(() => {
                 window.location.href = "/lista-usuarios";
             }, 1300);
         } catch (error) {
-            showToast("Erro ao salvar usuário!", "error");
+            message.error(error.response.data.error);
         }
     };
 
